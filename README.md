@@ -1,2 +1,3 @@
-# FundMatIezziVol1
-Fundamentos da Matemática - Iezzi Volume 1
+# FundMatIezziVols
+Fundamentos da Matemática - Iezzi Volume 1 + 2
+Novos Volumes serão adicionado progressivamente.
