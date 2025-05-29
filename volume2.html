@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos de Matemática Elementar - Vol. 2: Logaritmos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #f9fafb; /* Cor de fundo do corpo */
+        }
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar-open {
+            transform: translateX(0) !important;
+        }
+        #main-content {
+            transition: margin-left 0.3s ease-in-out;
+        }
+        .content-section {
+            display: none; 
+            margin-bottom: 20px;
+            padding: 20px; 
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        .content-section.active {
+            display: block;
+        }
+        .nav-link {
+            display: block;
+            padding: 10px 15px; 
+            margin-bottom: 5px; 
+            border-radius: 6px;
+            color: #d1d5db; 
+            text-decoration: none;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .nav-link:hover, .nav-link.active-link {
+            background-color: #374151; 
+            color: #ffffff;
+        }
+        .chapter-title {
+            font-weight: 700; 
+            font-size: 1.15rem; 
+            margin-top: 12px; 
+            margin-bottom: 6px;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+        .chapter-title:hover, .chapter-title.active-chapter {
+            background-color: #4b5563; 
+        }
+        .sub-items {
+            margin-left: 20px;
+            display: none; 
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .sub-items.open {
+            display: block;
+            max-height: 1000px; 
+        }
+        .sub-nav-link {
+            font-size: 0.95rem; 
+            padding: 8px 12px;
+        }
+        h1, h2, h3, h4 {
+            color: #111827; 
+            margin-bottom: 0.75rem; 
+        }
+        p, li {
+            line-height: 1.7; 
+            color: #374151; 
+            margin-bottom: 12px; 
+        }
+        .exercise-block {
+            margin-top: 20px; 
+            padding: 15px; 
+            background-color: #eef2ff; 
+            border-left: 4px solid #6366f1; 
+            border-radius: 4px;
+        }
+        .exercise-block h3 {
+            color: #4338ca; 
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px; 
+        }
+        .exercise-block p.exercise-item, .exercise-block ul li {
+            margin-bottom: 8px; 
+        }
+        code, .math-symbol {
+            background-color: #e5e7eb;
+            padding: 2px 5px; 
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .math-symbol {
+          font-style: italic;
+        }
+        .logic-table { 
+            border-collapse: collapse;
+            margin: 20px 0; 
+            font-size: 0.9em;
+            min-width: 300px; 
+            border-radius: 5px 5px 0 0;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .logic-table thead tr {
+            background-color: #4f46e5;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .logic-table th,
+        .logic-table td {
+            padding: 10px 12px; 
+            border: 1px solid #dddddd;
+            text-align: center;
+        }
+        .logic-table tbody tr:nth-of-type(even) {
+            background-color: #f3f4f6;
+        }
+         .sub-item-list {
+            padding-left: 1.5rem;
+        }
+        .sub-item-list li {
+            margin-bottom: 0.5rem;
+        }
+        .img-placeholder {
+            display: block; 
+            width: 300px;   
+            height: 200px;  
+            background-color: #e0e0e0;
+            border: 1px dashed #a0a0a0;
+            text-align: center; 
+            color: #666;
+            margin: 15px auto; 
+            font-size: 0.9rem;
+            border-radius: 6px;
+            line-height: 200px; 
+        }
+        .img-placeholder img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 6px;
+        }
+        .property-list li {
+            margin-bottom: 5px;
+        }
+        .property-list strong {
+            color: #4f46e5; 
+        }
+        .sample-content {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background-color: #f3f4f6; 
+            border: 1px solid #d1d5db; 
+            border-radius: 0.375rem; 
+            font-family: monospace;
+            white-space: pre-wrap; 
+            max-height: 300px; 
+            overflow-y: auto;
+        }
+        #menu-button {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 100; 
+            background-color: #1f2937;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+        }
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 40; 
+            display: none; 
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <button id="menu-button" class="md:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+    </button>
+
+    <div id="overlay" class="md:hidden"></div>
+
+    <div id="sidebar" class="fixed top-0 left-0 h-screen w-64 bg-gray-800 text-white p-5 transform -translate-x-full md:translate-x-0 md:w-[300px] z-50 overflow-y-auto">
+        <h1 class="text-2xl font-bold mb-6 text-center text-white">Matemática Elementar - Vol. 2</h1>
+        <nav id="navigation-menu">
+        </nav>
+    </div>
+
+    <div id="main-content" class="w-full md:ml-[300px] h-screen overflow-y-auto p-5">
+        <div id="home" class="content-section active">
+            <h2 class="text-3xl font-semibold mb-4">Bem-vindo ao Volume 2: Logaritmos!</h2>
+            <p class="text-lg">Este é o site interativo para o livro "Fundamentos de Matemática Elementar, Volume 2: Logaritmos" de Gelson Iezzi, Osvaldo Dolce e Carlos Murakami.</p>
+            <p>Utilize o menu à esquerda para navegar pelos capítulos e seções. Em ecrãs pequenos, use o botão "Menu" no canto superior esquerdo.</p>
+            <p>Nesta versão, o conteúdo do <strong>Capítulo I: Potências e Raízes</strong> está completo, incluindo teoria e exercícios. Os demais capítulos e seções estão listados na navegação e poderão ter seu conteúdo adicionado progressivamente.</p>
+            <p class="mt-4 text-sm text-gray-500">Observação: Imagens e diagramas do livro original são representados por marcadores de lugar visuais com indicação da página. Para visualização das figuras originais, por favor, consulte o PDF.</p>
+        </div>
+
+        <div id="cap1_item1" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo I: Potências e Raízes</h2>
+            <h3 class="text-xl font-medium mb-2">I. Potência de Expoente Natural</h3>
+            <h4 class="text-lg font-medium mt-3 mb-1">1. Definição</h4>
+            <p>Seja <span class="math-symbol">a</span> um número real e <span class="math-symbol">n</span> um número natural. Potência de base <span class="math-symbol">a</span> e expoente <span class="math-symbol">n</span> é o número <span class="math-symbol">a<sup>n</sup></span> tal que:</p>
+            <p><span class="math-symbol">a<sup>0</sup> = 1</span>, para <span class="math-symbol">a ≠ 0</span></p>
+            <p><span class="math-symbol">a<sup>n</sup> = a<sup>n-1</sup> ⋅ a</span>, ∀ <span class="math-symbol">n, n ≥ 1</span></p>
+            <p>Dessa definição decorre que:</p>
+            <p><span class="math-symbol">a<sup>1</sup> = a<sup>0</sup> ⋅ a = 1 ⋅ a = a</span></p>
+            <p><span class="math-symbol">a<sup>2</sup> = a<sup>1</sup> ⋅ a = a ⋅ a</span></p>
+            <p><span class="math-symbol">a<sup>3</sup> = a<sup>2</sup> ⋅ a = (a ⋅ a) ⋅ a</span></p>
+            <p>e, de modo geral, para <span class="math-symbol">p</span> natural e <span class="math-symbol">p ≥ 2</span>, temos que <span class="math-symbol">a<sup>p</sup></span> é um produto de <span class="math-symbol">p</span> fatores iguais a <span class="math-symbol">a</span>.</p>
+            
+            <h4 class="text-lg font-medium mt-3 mb-1">2. Exemplos</h4>
+            <ul class="list-disc list-inside ml-4">
+                <li>1º) 3<sup>0</sup> = 1</li>
+                <li>2º) (-2)<sup>0</sup> = 1</li>
+                <li>3º) 5<sup>1</sup> = 5</li>
+                <li>4º) (1/7)<sup>1</sup> = 1/7</li>
+                <li>5º) (-3)<sup>1</sup> = -3</li>
+                <li>6º) 3<sup>2</sup> = 3 ⋅ 3 = 9</li>
+                <li>7º) (-2)<sup>3</sup> = (-2)(-2)(-2) = -8</li>
+                <li>8º) (2/3)<sup>4</sup> = (2/3)⋅(2/3)⋅(2/3)⋅(2/3) = 16/81</li>
+                <li>9º) (-0,1)<sup>5</sup> = (-0,1)(-0,1)(-0,1)(-0,1)(-0,1) = -0,00001</li>
+                <li>10º) 0<sup>3</sup> = 0 ⋅ 0 ⋅ 0 = 0</li>
+                <li>11º) 0<sup>1</sup> = 0</li>
+            </ul>
+
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>1.</strong> Calcule:</p>
+                <p class="exercise-item ml-4">a) (-3)<sup>2</sup></p>
+                <p class="exercise-item ml-4">b) -3<sup>2</sup></p>
+                <p class="exercise-item ml-4">c) -2<sup>3</sup></p>
+                <p class="exercise-item ml-4">d) -(-2)<sup>3</sup></p>
+                <p class="exercise-item"><strong>2.</strong> Calcule:</p>
+                <p class="exercise-item ml-4">a) (-3)<sup>3</sup> &nbsp;&nbsp; e) (2/3)<sup>3</sup> &nbsp;&nbsp; i) -2<sup>2</sup> &nbsp;&nbsp; m) 0<sup>7</sup></p>
+                <p class="exercise-item ml-4">b) (-2)<sup>1</sup> &nbsp;&nbsp; f) (-1/3)<sup>4</sup> &nbsp;&nbsp; j) -(-3/2)<sup>3</sup> &nbsp;&nbsp; n) (-4)<sup>0</sup></p>
+                <p class="exercise-item ml-4">c) 3<sup>4</sup> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; g) (1/2)<sup>3</sup> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; k) (-1)<sup>10</sup> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; o) -5<sup>0</sup></p>
+                <p class="exercise-item ml-4">d) 1<sup>7</sup> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; h) (2/3)<sup>0</sup> &nbsp;&nbsp;&nbsp;&nbsp; l) (-1)<sup>13</sup> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p) -(-1)<sup>15</sup></p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios na página 142 do livro.</em></p>
+            </div>
+            <h4 class="text-lg font-medium mt-4 mb-1">3. Propriedades</h4>
+             <p>Se <span class="math-symbol">a ∈ ℝ, b ∈ ℝ, m ∈ ℕ e n ∈ ℕ</span>, com <span class="math-symbol">a ≠ 0</span> ou <span class="math-symbol">n ≠ 0</span>, então valem as seguintes propriedades:</p>
+            <ul class="list-disc list-inside ml-4 property-list">
+                <li><strong>[P<sub>1</sub>]</strong> <span class="math-symbol">a<sup>m</sup> ⋅ a<sup>n</sup> = a<sup>m+n</sup></span></li>
+                <li><strong>[P<sub>2</sub>]</strong> <span class="math-symbol">a<sup>m</sup> / a<sup>n</sup> = a<sup>m-n</sup></span>, (<span class="math-symbol">a ≠ 0</span> e <span class="math-symbol">m ≥ n</span>)</li>
+                <li><strong>[P<sub>3</sub>]</strong> <span class="math-symbol">(a ⋅ b)<sup>n</sup> = a<sup>n</sup> ⋅ b<sup>n</sup></span>, (com <span class="math-symbol">b ≠ 0</span> ou <span class="math-symbol">n ≠ 0</span>)</li>
+                <li><strong>[P<sub>4</sub>]</strong> <span class="math-symbol">(a/b)<sup>n</sup> = a<sup>n</sup> / b<sup>n</sup></span>, (<span class="math-symbol">b ≠ 0</span>)</li>
+                <li><strong>[P<sub>5</sub>]</strong> <span class="math-symbol">(a<sup>m</sup>)<sup>n</sup> = a<sup>m⋅n</sup></span></li>
+            </ul>
+            <h4 class="text-lg font-medium mt-4 mb-1">4. Casos da base <span class="math-symbol">a</span></h4>
+             <ul class="list-disc list-inside ml-4">
+                <li>1º caso: <span class="math-symbol">a = 0 ⇒ 0<sup>n</sup> = 0, ∀n ∈ ℕ, n ≥ 1</span>.</li>
+                <li>2º caso: <span class="math-symbol">a > 0 ⇒ a<sup>n</sup> > 0, ∀n ∈ ℕ</span>.</li>
+                <li>3º caso: <span class="math-symbol">a < 0 ⇒ </span> { <span class="math-symbol">a<sup>2n</sup> > 0, ∀n ∈ ℕ</span> ; <span class="math-symbol">a<sup>2n+1</sup> < 0, ∀n ∈ ℕ</span> }</li>
+            </ul>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>3.</strong> Se n ∈ ℕ, calcule o valor de A = (-1)<sup>2n</sup> - (-1)<sup>2n+3</sup> + (-1)<sup>3n</sup> - (-1)<sup>n</sup>.</p>
+                <p class="exercise-item"><strong>4.</strong> Classifique em verdadeira (V) ou falsa (F) cada uma das sentenças abaixo:<br>
+                a) 5<sup>3</sup> ⋅ 5<sup>2</sup> = 5<sup>6</sup><br>
+                b) 3<sup>6</sup> : 3<sup>2</sup> = 3<sup>3</sup><br>
+                c) 2<sup>3</sup> ⋅ 3 = 6<sup>3</sup><br>
+                d) (2 + 3)<sup>4</sup> = 2<sup>4</sup> + 3<sup>4</sup><br>
+                e) (5<sup>3</sup>)<sup>2</sup> = 5<sup>6</sup><br>
+                f) (-2)<sup>6</sup> = 2<sup>6</sup><br>
+                g) 2<sup>7</sup> / 2<sup>5</sup> = (-2)<sup>2</sup><br>
+                h) 5<sup>2</sup> - 4<sup>2</sup> = 3<sup>2</sup></p>
+                <p class="exercise-item"><strong>5.</strong> Simplifique (a<sup>4</sup> ⋅ b<sup>3</sup>)<sup>3</sup> ⋅ (a<sup>2</sup> ⋅ b)<sup>2</sup>.</p>
+                <p class="exercise-item"><strong>6.</strong> Simplifique as expressões, supondo a ⋅ b ≠ 0:<br>
+                a) (a<sup>2</sup> ⋅ b<sup>3</sup>)<sup>2</sup> ⋅ (a<sup>3</sup> ⋅ b<sup>2</sup>)<sup>3</sup><br>
+                b) (a<sup>4</sup> ⋅ b<sup>2</sup>)<sup>3</sup> / (a ⋅ b<sup>2</sup>)<sup>2</sup><br>
+                c) [(a<sup>3</sup> ⋅ b<sup>2</sup>)<sup>2</sup>]<sup>3</sup><br>
+                d) (a<sup>4</sup> ⋅ b<sup>3</sup> / (a<sup>2</sup> ⋅ b))<sup>5</sup><br>
+                e) [(a<sup>2</sup> ⋅ b<sup>3</sup>)<sup>4</sup> ⋅ (a<sup>3</sup> ⋅ b<sup>4</sup>)<sup>2</sup>] / (a<sup>3</sup> ⋅ b<sup>2</sup>)<sup>3</sup></p>
+                <p class="exercise-item"><strong>7.</strong> Se a e b são números reais, então em que condições (a + b)² = a² + b²?</p>
+                <p class="exercise-item"><strong>8.</strong> Determine o menor número inteiro positivo x para que 2940x = M³, em que M é um número inteiro.</p>
+                <p class="exercise-item"><strong>9.</strong> Determine o último algarismo (algarismo das unidades) do número 14<sup>(14<sup>14</sup>)</sup>.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios na página 142 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap1_item2" class="content-section">
+             <h2 class="text-2xl font-semibold mb-3">Capítulo I: Potências e Raízes</h2>
+            <h3 class="text-xl font-medium mb-2">II. Potência de Expoente Inteiro Negativo</h3>
+            <h4 class="text-lg font-medium mt-3 mb-1">5. Definição</h4>
+            <p>Dado um número real <span class="math-symbol">a</span>, não nulo, e um número <span class="math-symbol">n</span> natural, define-se a potência <span class="math-symbol">a<sup>-n</sup></span> pela relação:</p>
+            <p><span class="math-symbol">a<sup>-n</sup> = 1/a<sup>n</sup></span></p>
+            <p>isto é, a potência de base real, não nula, e expoente inteiro negativo é definida como o inverso da correspondente potência de expoente inteiro positivo.</p>
+            <h4 class="text-lg font-medium mt-3 mb-1">6. Exemplos</h4>
+             <ul class="list-disc list-inside ml-4">
+                <li>1º) 2<sup>-1</sup> = 1/2<sup>1</sup> = 1/2</li>
+                <li>2º) 2<sup>-3</sup> = 1/2<sup>3</sup> = 1/8</li>
+                <li>3º) (-2)<sup>-3</sup> = 1/(-2)<sup>3</sup> = 1/-8 = -1/8</li>
+                <li>4º) (-2/3)<sup>-2</sup> = 1/((-2/3)<sup>2</sup>) = 1/(4/9) = 9/4</li>
+                <li>5º) (-1/2)<sup>-5</sup> = 1/((-1/2)<sup>5</sup>) = 1/(-1/32) = -32</li>
+            </ul>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>10.</strong> Calcule o valor das expressões:</p>
+                <p class="exercise-item ml-4">a) (2<sup>-1</sup> - (-2)<sup>2</sup> + (-2)<sup>-1</sup>) / (2<sup>2</sup> + 2<sup>-2</sup>)</p>
+                <p class="exercise-item ml-4">b) (3<sup>2</sup> - 3<sup>-2</sup>) / (3<sup>2</sup> + 3<sup>-2</sup>)</p>
+                <p class="exercise-item ml-4">c) ((-1/2)<sup>2</sup> ⋅ (1/2)<sup>3</sup>) / [(-1/2)<sup>2</sup>]<sup>3</sup></p>
+                <p class="exercise-item"><strong>11.</strong> Calcule:</p>
+                <p class="exercise-item ml-4">a) 3<sup>-1</sup> &nbsp;&nbsp; f) (-3)<sup>-2</sup> &nbsp;&nbsp; k) (-1/2)<sup>-2</sup> &nbsp;&nbsp; p) (0,75)<sup>-2</sup></p>
+                <p class="exercise-item ml-4">b) (-2)<sup>-1</sup> &nbsp;&nbsp; g) -5<sup>-2</sup> &nbsp;&nbsp; l) (-3/2)<sup>-3</sup> &nbsp;&nbsp; q) 1/2<sup>-3</sup></p>
+                <p class="exercise-item ml-4">c) -3<sup>-1</sup> &nbsp;&nbsp; h) (1/3)<sup>-2</sup> &nbsp;&nbsp; m) (0,1)<sup>-2</sup> &nbsp;&nbsp; r) 1/(0,2)<sup>-2</sup></p>
+                <p class="exercise-item ml-4">d) -(-3)<sup>-1</sup> &nbsp;&nbsp; i) (2/3)<sup>-1</sup> &nbsp;&nbsp; n) (0,25)<sup>-3</sup> &nbsp;&nbsp; s) 1/(-3)<sup>-3</sup></p>
+                <p class="exercise-item ml-4">e) 2<sup>-2</sup> &nbsp;&nbsp; j) - (2/5)<sup>-2</sup> &nbsp;&nbsp; o) (-0,5)<sup>-3</sup> &nbsp;&nbsp; t) 1/(0,01)<sup>-2</sup></p>
+                <p class="exercise-item"><strong>12.</strong> Remova os expoentes negativos e simplifique a expressão (x<sup>-1</sup> + y<sup>-1</sup>)/(xy)<sup>-1</sup>, em que x, y ∈ ℝ<sup>*</sup>.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios na página 142 do livro.</em></p>
+            </div>
+            <h4 class="text-lg font-medium mt-4 mb-1">7. Observações</h4>
+            <p>1) Com a definição de potência de expoente inteiro negativo, a propriedade [P<sub>2</sub>] (<span class="math-symbol">a<sup>m</sup>/a<sup>n</sup> = a<sup>m-n</sup></span>, <span class="math-symbol">a ≠ 0</span>) passa a ter significado para <span class="math-symbol">m < n</span>.</p>
+            <p>2) Se <span class="math-symbol">a = 0</span> e <span class="math-symbol">n ∈ ℕ<sup>*</sup></span>, <span class="math-symbol">0<sup>-n</sup></span> é um símbolo sem significado.</p>
+            <h4 class="text-lg font-medium mt-4 mb-1">8. Definição Geral para Expoente Inteiro</h4>
+            <p>Se <span class="math-symbol">a ∈ ℝ</span> e <span class="math-symbol">n ∈ ℤ</span>, então: <span class="math-symbol">a<sup>n</sup></span> = { 1, se n = 0 e a ≠ 0 ; a<sup>n-1</sup>⋅a, se n > 0 ; 1/a<sup>-n</sup>, se n < 0 e a ≠ 0 }.</p>
+            <p>Estas potências têm as propriedades (P) para <span class="math-symbol">a, b ∈ ℝ<sup>*</sup>, m, n ∈ ℤ</span>.</p>
+             <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>13.</strong> Classifique em verdadeira (V) ou falsa (F) cada uma das sentenças abaixo:<br>
+                a) (5<sup>3</sup>)<sup>-2</sup> = 5<sup>-6</sup><br>
+                b) 2<sup>-4</sup> = -16<br>
+                c) (π + 2)<sup>-2</sup> = π<sup>-2</sup> + 2<sup>-2</sup><br>
+                d) 3<sup>-4</sup> ⋅ 3<sup>5</sup> = 1/3<br>
+                e) 7<sup>-2</sup> / 7<sup>-5</sup> = 7<sup>-3</sup><br>
+                f) 5<sup>2</sup> / 5<sup>-6</sup> = 5<sup>8</sup><br>
+                g) 2<sup>-1</sup> - 3<sup>-1</sup> = 6<sup>-1</sup><br>
+                h) π<sup>1</sup> + π<sup>-1</sup> = 1<br>
+                i) (2<sup>-3</sup>)<sup>-2</sup> = 2<sup>6</sup><br>
+                j) 3<sup>2</sup> ⋅ 3<sup>-2</sup> = 1</p>
+                <p class="exercise-item"><strong>14.</strong> Se a ⋅ b ≠ 0, simplifique [(a<sup>3</sup> ⋅ b<sup>-2</sup>)<sup>-2</sup>] / [(a<sup>-4</sup> ⋅ b<sup>3</sup>)<sup>3</sup>].</p>
+                <p class="exercise-item"><strong>15.</strong> Se a ⋅ b ≠ 0, simplifique as expressões:<br>
+                a) (a<sup>-2</sup> ⋅ b<sup>3</sup>)<sup>-2</sup> ⋅ (a<sup>3</sup> ⋅ b<sup>-2</sup>)<sup>3</sup><br>
+                b) [(a<sup>5</sup> ⋅ b<sup>3</sup>)<sup>2</sup>] / [(a<sup>-4</sup> ⋅ b)<sup>-3</sup>]<br>
+                c) [(a<sup>2</sup> ⋅ b<sup>-3</sup>)<sup>2</sup>]<sup>-3</sup><br>
+                d) [(a<sup>3</sup> ⋅ b<sup>-4</sup>) / (a<sup>-2</sup> ⋅ b<sup>2</sup>)]<sup>3</sup><br>
+                e) [(a<sup>3</sup> ⋅ b<sup>-2</sup>)<sup>-2</sup> ⋅ (a ⋅ b<sup>-2</sup>)<sup>3</sup>] / [(a<sup>-1</sup> ⋅ b<sup>2</sup>)<sup>-3</sup>]<br>
+                f) (a<sup>-1</sup> + b<sup>-1</sup>) ⋅ (a + b)<sup>-1</sup><br>
+                g) (a<sup>-2</sup> - b<sup>-2</sup>) ⋅ (a<sup>-1</sup> - b<sup>-1</sup>)<sup>-1</sup></p>
+                <p class="exercise-item"><strong>16.</strong> Se n ∈ ℤ e a ∈ ℝ<sup>*</sup>, simplifique as expressões:<br>
+                a) (a<sup>2n+1</sup> ⋅ a<sup>1-n</sup> ⋅ a<sup>3-n</sup>)<br>
+                b) (a<sup>2n+3</sup> ⋅ a<sup>n-1</sup>) / a<sup>2(n-1)</sup><br>
+                c) (a<sup>2(n+1)</sup> ⋅ a<sup>3-n</sup>) / a<sup>1-n</sup><br>
+                d) (a<sup>n+4</sup> - a<sup>3</sup> ⋅ a<sup>n</sup>) / (a<sup>4</sup> ⋅ a<sup>n</sup>)</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 142-143 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap1_item3" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo I: Potências e Raízes</h2>
+            <h3 class="text-xl font-medium mb-2">III. Raiz Enésima Aritmética</h3>
+            <h4 class="text-lg font-medium mt-3 mb-1">9. Definição</h4>
+            <p>Dados um número real <span class="math-symbol">a ≥ 0</span> e um número natural <span class="math-symbol">n, n ≥ 1</span>, é demonstrável que existe sempre um número real positivo ou nulo <span class="math-symbol">b</span> tal que <span class="math-symbol">b<sup>n</sup> = a</span>.</p>
+            <p>Ao número <span class="math-symbol">b</span> chamaremos raiz enésima aritmética de <span class="math-symbol">a</span> e indicaremos pelo símbolo ⁿ√<span class="math-symbol">a</span>, em que <span class="math-symbol">a</span> é chamado radicando e <span class="math-symbol">n</span> é o índice.</p>
+            <p>Exemplos: ⁵√32 = 2; ³√8 = 2; √9 = 3; ⁷√0 = 0; ⁶√1 = 1.</p>
+            <h4 class="text-lg font-medium mt-3 mb-1">10. Observações</h4>
+            <p>1) Da definição decorre (ⁿ√<span class="math-symbol">a</span>)<sup>n</sup> = <span class="math-symbol">a</span>, para todo <span class="math-symbol">a ≥ 0</span>.</p>
+            <p>2) Observemos na definição dada que: √36 = 6 e não √36 = ±6. Mas sentenças como -³√8 = -2, -√4 = -2, ±√9 = ±3 são verdadeiras.</p>
+            <p>3) Devemos estar atentos ao cálculo da raiz quadrada de um quadrado perfeito, pois: √(<span class="math-symbol">a<sup>2</sup></span>) = |<span class="math-symbol">a</span>| e não √(<span class="math-symbol">x<sup>2</sup></span>) = <span class="math-symbol">x</span>. Exemplos: √((-5)<sup>2</sup>) = |-5| = 5.</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>17.</strong> Classifique em verdadeira (V) ou falsa (F) cada uma das sentenças abaixo:<br>
+                a) ³√27 = 3 <br> b) √4 = ±2 <br> c) ⁴√1 = 1 <br> d) -√9 = -3 <br> e) ³√(1/8) = 1/2 <br> f) ³√0 = 0</p>
+                <p class="exercise-item"><strong>18.</strong> Classifique em verdadeira (V) ou falsa (F) cada uma das sentenças abaixo:<br>
+                a) √x<sup>4</sup> = x², ∀x ∈ ℝ <br> b) √x<sup>10</sup> = x<sup>5</sup>, ∀x ∈ ℝ <br> c) ⁶√x<sup>6</sup> = x, ∀x ∈ ℝ<sub>+</sub> <br> d) √((x-1)²) = x-1, ∀x ∈ ℝ e x ≥ 1 <br> e) √((x-3)²) = 3-x, ∀x ∈ ℝ e x ≤ 3</p>
+                <p class="exercise-item"><strong>19.</strong> Determine a raiz quadrada aritmética de (x - 1)².</p>
+                <p class="exercise-item"><strong>20.</strong> Determine a raiz quadrada aritmética de: a) (x + 2)² b) (2x - 3)² c) x² - 6x + 9 d) 4x² + 4x + 1</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios na página 143 do livro.</em></p>
+            </div>
+             <h4 class="text-lg font-medium mt-4 mb-1">11. Propriedades</h4>
+            <p>Se <span class="math-symbol">a ∈ ℝ<sub>+</sub>, b ∈ ℝ<sub>+</sub>, m ∈ ℤ, n ∈ ℕ<sup>*</sup>, p ∈ ℕ<sup>*</sup></span>, temos: ... (propriedades R<sub>1</sub> a R<sub>5</sub> na p.11)</p>
+            <h4 class="text-lg font-medium mt-4 mb-1">12. Observação (introduzir fator no radicando)</h4>
+            <p>1º) para b ≥ 0, b ⋅ ⁿ√a = ⁿ√(a ⋅ b<sup>n</sup>)</p>
+            <p>2º) para b < 0, b ⋅ ⁿ√a = -ⁿ√(a ⋅ |b|<sup>n</sup>)</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>21.</strong> Simplifique os radicais: a) ³√64 b) √576 c) √12 d) ³√2<sup>7</sup></p>
+                <p class="exercise-item"><strong>22.</strong> Simplifique os radicais: a) √144 b) √324 c) ³√729 d) √196 e) ⁴√625 f) √18 g) √128 h) ³√72 i) ⁴√512</p>
+                <p class="exercise-item"><strong>23.</strong> Simplifique as expressões: a) √8 + √32 + √72 - √50 ... (até g)</p>
+                <p class="exercise-item"><strong>24.</strong> Simplifique: a) √(81x³) b) √(45x³y²) c) √(12x⁴y⁵) d) √(8x²)</p>
+                <p class="exercise-item"><strong>25.</strong> Reduza ao mesmo índice √3, ³√2 e ⁴√5.</p>
+                <p class="exercise-item"><strong>26.</strong> Reduza ao mesmo índice: a) √2, ³√5, ⁵√3 ... (até d)</p>
+                <p class="exercise-item"><strong>27.</strong> Efetue as operações indicadas com as raízes: a) √3 ⋅ √12 ... (até f)</p>
+                <p class="exercise-item"><strong>28.</strong> Efetue as operações indicadas com as raízes: a) √2 ⋅ √18 ... (até o)</p>
+                <p class="exercise-item"><strong>29.</strong> Efetue as operações: a) (√12 - 2√27 + 3√75) ⋅ √3 ... (até c)</p>
+                <p class="exercise-item"><strong>30.</strong> Efetue as operações: a) 2√3 ⋅ (3√5 - 2√20 - √45) ... (até k)</p>
+                <p class="exercise-item"><strong>31.</strong> Efetue: a) (4√8 - 2√18) : ³√2 ... (até d)</p>
+                <p class="exercise-item"><strong>32.</strong> Efetue: a) √[√2 - 1] ⋅ √[√2 + 1] ... (até d)</p>
+                <p class="exercise-item"><strong>33.</strong> Simplifique: a) √[a + √b] ⋅ √[a - √b] ⋅ √(a² - b) ... (até e)</p>
+                <p class="exercise-item"><strong>34.</strong> Simplifique as raízes: a) ³√√64 b) √(a³√a²√a) c) ⁴√[a³√[a√a]]</p>
+                <p class="exercise-item"><strong>35.</strong> Racionalize os denominadores das frações: a) 1/√3 b) 1/³√2 c) 5/(3 - √7) d) 1/(1 + √2 - √3)</p>
+                <p class="exercise-item"><strong>36.</strong> Racionalize o denominador de cada fração: a) 3/√2 ... (até r)</p>
+                <p class="exercise-item"><strong>37.</strong> Determine o valor da expressão (³√4 - 1)/(³√2 - 1).</p>
+                <p class="exercise-item"><strong>38.</strong> Simplifique: a) √[(2+√3)/(2-√3)] + √[(2-√3)/(2+√3)] ... (até d)</p>
+                <p class="exercise-item"><strong>39.</strong> Simplifique a expressão: [(x + √(x²-1))/(x - √(x²-1))] - [(x - √(x²-1))/(x + √(x²-1))]</p>
+                <p class="exercise-item"><strong>40.</strong> Simplifique a expressão [2a√(1+x²)] / [x + √(1+x²)], sabendo que x = (1/2)(√(a/b) - √(b/a)) (0 < b < a).</p>
+                <p class="exercise-item"><strong>41.</strong> Mostre que ³√[9(³√2 - 1)] = 1 - ³√2 + ³√4.</p>
+                <p class="exercise-item"><strong>42.</strong> Mostre que 3/√(7-2√10) + 4/√(8+4√3) = 1/√(11-2√30).</p>
+                <p class="exercise-item"><strong>43.</strong> Calcule o valor de x = √[2+√[2+√[2+...]]].</p>
+                <p class="exercise-item"><strong>44.</strong> Qual o valor que se obtém ao subtrair 5/(8-3√7) de 12/(√7+3)?</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 143-144 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap1_item4" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo I: Potências e Raízes</h2>
+            <h3 class="text-xl font-medium mb-2">IV. Potência de Expoente Racional</h3>
+            <h4 class="text-lg font-medium mt-3 mb-1">13. Definição</h4>
+            <p>Dados <span class="math-symbol">a ∈ ℝ<sub>+</sub><sup>*</sup></span> e <span class="math-symbol">p/q ∈ ℚ</span> (<span class="math-symbol">p ∈ ℤ</span> e <span class="math-symbol">q ∈ ℕ<sup>*</sup></span>); define-se potência de base <span class="math-symbol">a</span> e expoente <span class="math-symbol">p/q</span> pela relação: <span class="math-symbol">a<sup>p/q</sup> = <sup>q</sup>√a<sup>p</sup></span>.</p>
+            <p>Se <span class="math-symbol">a = 0</span> e <span class="math-symbol">p/q > 0</span>, adota-se: <span class="math-symbol">0<sup>p/q</sup> = 0</span>.</p>
+            <h4 class="text-lg font-medium mt-3 mb-1">14. Observações</h4>
+            <p>1) O símbolo <span class="math-symbol">0<sup>p/q</sup></span> com <span class="math-symbol">p/q < 0</span> não tem significado.</p>
+            <p>2) Toda potência de base positiva e expoente racional é um número real positivo.</p>
+             <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>45.</strong> Expresse na forma de potência de expoente racional os seguintes radicais: a) √5 b) ³√4 c) ⁴√27 d) √√2 e) ⁴√³√5 f) (³√2²)² g) 1/√2 h) 1/³√9 i) (1/⁴√8)²</p>
+                <p class="exercise-item"><strong>46.</strong> Calcule, substituindo as potências de expoente racional pelos correspondentes radicais: a) 8<sup>1/3</sup> b) 64<sup>-1/2</sup> c) (0,25)<sup>-1/2</sup> d) (9/4)<sup>1/2</sup> e) (1/32)<sup>-1/5</sup> f) 27<sup>-2/3</sup> g) (1/16)<sup>3/4</sup> h) (0,81)<sup>-1/2</sup> i) (0,01)<sup>-0.5</sup></p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios na página 144 do livro.</em></p>
+            </div>
+            <h4 class="text-lg font-medium mt-4 mb-1">15. Propriedades</h4>
+            <p>As propriedades (P) verificam-se para as potências de expoente racional.</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>47.</strong> Simplifique, fazendo uso das propriedades (P): a) 16<sup>3/4</sup> b) 27<sup>-4/3</sup> c) (81²)<sup>1/4</sup></p>
+                <p class="exercise-item"><strong>48.</strong> Simplifique fazendo uso das propriedades (P): a) 9<sup>3/2</sup> ... (até l)</p>
+                <p class="exercise-item"><strong>49.</strong> Simplifique: a) 2<sup>2/3</sup>⋅2<sup>-1/5</sup>⋅2<sup>4/5</sup> ... (até g)</p>
+                <p class="exercise-item"><strong>50.</strong> Determine o valor da expressão (0,064<sup>1/3</sup>)⋅(0,0625<sup>1/4</sup>).</p>
+                <p class="exercise-item"><strong>51.</strong> Determine o valor da expressão 5x<sup>0</sup> + 3x<sup>3/4</sup> + 4x<sup>-1/2</sup> para x = 16.</p>
+                <p class="exercise-item"><strong>52.</strong> Determine o valor da expressão (2/3)⋅8<sup>2/3</sup> - (2/3)⋅8<sup>-2/3</sup>.</p>
+                <p class="exercise-item"><strong>53.</strong> Simplifique, supondo a > 0 e b > 0: a) (<sup>n+3</sup>√[<sup>n-1</sup>√[a²]] ⋅ <sup>n+1</sup>√[a<sup>-1</sup>])<sup>n²-1</sup> ... (até f)</p>
+                <p class="exercise-item"><strong>54.</strong> Se a > 0, mostre que: 1/(a<sup>1/4</sup>+a<sup>1/8</sup>+1) + 1/(a<sup>1/4</sup>-a<sup>1/8</sup>+1) - (2(a<sup>1/4</sup>-1))/(a<sup>1/2</sup>-a<sup>1/4</sup>+1) = 4/(a+√a+1)</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios na página 144 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap1_item5" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo I: Potências e Raízes</h2>
+            <h3 class="text-xl font-medium mb-2">V. Potência de Expoente Irracional</h3>
+            <h4 class="text-lg font-medium mt-3 mb-1">16. Introdução</h4>
+            <p>Dados um número real <span class="math-symbol">a > 0</span> e um número irracional α, podemos construir, com base nas potências de expoente racional, um único número real positivo <span class="math-symbol">a<sup>α</sup></span> que é a potência de base a e expoente irracional α.</p>
+            <p>Exemplo: 3<sup>√2</sup>. Aproximações de √2 (r < √2 < s) levam a aproximações de 3<sup>√2</sup> (3<sup>r</sup> < 3<sup>√2</sup> < 3<sup>s</sup>).</p>
+            <h4 class="text-lg font-medium mt-3 mb-1">17. Definição</h4>
+            <p>Seja <span class="math-symbol">a ∈ ℝ, a > 0</span> e α um número irracional. Consideremos os conjuntos A<sub>1</sub> = {r ∈ ℚ | r < α} e A<sub>2</sub> = {s ∈ ℚ | s > α}. Em correspondência, B<sub>1</sub> = {a<sup>r</sup> | r ∈ A<sub>1</sub>} e B<sub>2</sub> = {a<sup>s</sup> | s ∈ A<sub>2</sub>}. Se a > 1, demonstra-se que todo número de B<sub>1</sub> é menor que qualquer número de B<sub>2</sub>, e que existem a<sup>r</sup> e a<sup>s</sup> com diferença arbitrariamente pequena. B<sub>1</sub> e B<sub>2</sub> definem a<sup>α</sup>.</p>
+            <h4 class="text-lg font-medium mt-3 mb-1">18. Caso <span class="math-symbol">a = 0</span></h4>
+            <p>Se <span class="math-symbol">a = 0</span> e α é irracional e positivo, definimos <span class="math-symbol">0<sup>α</sup> = 0</span>.</p>
+            <h4 class="text-lg font-medium mt-3 mb-1">19. Observações</h4>
+            <p>1) Se a = 1, então 1<sup>α</sup> = 1, ∀α irracional.</p>
+            <p>2) Se a < 0 e α é irracional, então a<sup>α</sup> não tem significado. Exemplos: (-2)<sup>√2</sup>.</p>
+            <p>3) Se α é irracional e negativo, então 0<sup>α</sup> não tem significado.</p>
+            <p>4) Para as potências de expoente irracional são válidas as propriedades (P).</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIO</h3>
+                <p class="exercise-item"><strong>55.</strong> Simplifique: a) 3 ⋅ 2<sup>√3</sup> ⋅ 2<sup>-√3</sup> b) (2<sup>³√3</sup>)<sup>³√2</sup> c) (4<sup>√2</sup>)<sup>-√3</sup> d) (3<sup>√2-1</sup>)<sup>√2+1</sup> e) 2<sup>1+√3</sup> ⋅ 4<sup>-√12</sup> f) 9<sup>√2</sup> : 3<sup>√8</sup> g) (5<sup>√2+√3</sup> : 25<sup>√2-√3</sup>)<sup>√3</sup> h) (4<sup>√5</sup> : 8<sup>√20</sup>)<sup>-1/√5</sup> i) [(2<sup>√27</sup> ⋅ 8<sup>√75</sup>) / 4<sup>√48</sup>]<sup>√3/2</sup></p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios na página 144 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap1_item6" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo I: Potências e Raízes</h2>
+            <h3 class="text-xl font-medium mb-2">VI. Potência de Expoente Real</h3>
+            <h4 class="text-lg font-medium mt-3 mb-1">20. Definição</h4>
+            <p>Considerando que foram definidas anteriormente as potências de base <span class="math-symbol">a</span> (<span class="math-symbol">a ∈ ℝ<sub>+</sub><sup>*</sup></span>) e expoente <span class="math-symbol">b</span> (<span class="math-symbol">b</span> racional ou irracional), então já está definida a potência <span class="math-symbol">a<sup>b</sup></span> com <span class="math-symbol">a ∈ ℝ<sub>+</sub><sup>*</sup></span> e <span class="math-symbol">b ∈ ℝ</span>.</p>
+            <h4 class="text-lg font-medium mt-3 mb-1">21. Observações</h4>
+            <p>1) Toda potência de base real e positiva e expoente real é um número positivo: <span class="math-symbol">a > 0 ⇒ a<sup>b</sup> > 0</span>.</p>
+            <p>2) Para as potências de expoente real são válidas as propriedades (P).</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>56.</strong> Simplifique a expressão (2<sup>n+4</sup> - 2 ⋅ 2<sup>n</sup>) / (2 ⋅ 2<sup>n+3</sup>), ∀n ∈ ℝ.</p>
+                <p class="exercise-item"><strong>57.</strong> Determine o valor da expressão (2<sup>n</sup> + 2<sup>n-1</sup>)(3<sup>n</sup> - 3<sup>n-1</sup>), para todo n.</p>
+                <p class="exercise-item"><strong>58.</strong> Chamam-se cosseno hiperbólico de x e seno hiperbólico de x, e representam-se respectivamente por cosh x e senh x, os números: cosh x = (e<sup>x</sup> + e<sup>-x</sup>)/2 e senh x = (e<sup>x</sup> - e<sup>-x</sup>)/2. Calcule (cosh x)² - (senh x)².</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios na página 144 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap1_leitura" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Leitura: Stifel, Bürgi e a Criação dos Logaritmos</h2>
+            <p>Michael Stifel (1487-1567), em sua "Arithmetica integra" (1544), introduziu no Ocidente o Triângulo Aritmético (de Pascal) e associou progressões geométricas a aritméticas, uma ideia embrionária dos logaritmos. Por exemplo, à P.G. (1/8, 1/4, ..., 64) de razão 2, associou a P.A. (-3, -2, ..., 6) de razão 1, notando que ao produto de termos da P.G. correspondia a soma dos termos da P.A.</p>
+            <p>Jost Bürgi (1552-1632), relojoeiro e matemático suíço, trabalhou na construção de tábuas logarítmicas por volta de 1610. Considerou uma P.G. com primeiro termo 10<sup>8</sup> e razão 1,0001, e uma P.A. com primeiro termo 0 e razão 10. Publicou suas "Progress-Tabulen" em 1620, mas John Napier já havia publicado seu trabalho sobre logaritmos em 1614, garantindo a prioridade.</p>
+        </div>
+
+        <div id="cap2_item1_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo II: Função Exponencial</h2>
+            <h3 class="text-xl font-medium mb-2">I. Definição</h3>
+            <p><strong>22.</strong> Dado um número real <span class="math-symbol">a</span>, tal que <span class="math-symbol">0 < a ≠ 1</span>, chamamos função exponencial de base <span class="math-symbol">a</span> a função <span class="math-symbol">f</span> de ℝ em ℝ que associa a cada <span class="math-symbol">x</span> real o número <span class="math-symbol">a<sup>x</sup></span>.</p>
+            <p>Em símbolos: <span class="math-symbol">f</span>: ℝ → ℝ, <span class="math-symbol">x</span> → <span class="math-symbol">a<sup>x</sup></span>.</p>
+            <p>Exemplos de funções exponenciais em ℝ:</p>
+            <ul class="list-disc list-inside ml-4">
+                <li>1º) f(x) = 2<sup>x</sup></li>
+                <li>2º) g(x) = (1/2)<sup>x</sup></li>
+                <li>3º) h(x) = 3<sup>x</sup></li>
+                <li>4º) p(x) = 10<sup>x</sup></li>
+                <li>5º) r(x) = (√2)<sup>x</sup></li>
+            </ul>
+        </div>
+
+        <div id="cap2_item2_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo II: Função Exponencial</h2>
+            <h3 class="text-xl font-medium mb-2">II. Propriedades</h3>
+            <p>1) Na função exponencial <span class="math-symbol">f(x) = a<sup>x</sup></span>, temos: <span class="math-symbol">x = 0 ⇒ f(0) = a<sup>0</sup> = 1</span>. Isto é, o par ordenado (0, 1) pertence à função para todo <span class="math-symbol">a ∈ ℝ<sub>+</sub><sup>*</sup> - {1}</span>. Isto significa que o gráfico cartesiano de toda função exponencial corta o eixo y no ponto de ordenada 1.</p>
+            <p>2) A função exponencial <span class="math-symbol">f(x) = a<sup>x</sup></span> é crescente (decrescente) se, e somente se, <span class="math-symbol">a > 1</span> (<span class="math-symbol">0 < a < 1</span>). Portanto, dados os reais <span class="math-symbol">x<sub>1</sub></span> e <span class="math-symbol">x<sub>2</sub></span>, temos:</p>
+            <ul class="list-roman list-inside ml-4">
+                <li>I) quando <span class="math-symbol">a > 1</span>: <span class="math-symbol">x<sub>1</sub> < x<sub>2</sub> ⇒ f(x<sub>1</sub>) < f(x<sub>2</sub>)</span></li>
+                <li>II) quando <span class="math-symbol">0 < a < 1</span>: <span class="math-symbol">x<sub>1</sub> < x<sub>2</sub> ⇒ f(x<sub>1</sub>) > f(x<sub>2</sub>)</span></li>
+            </ul>
+            <p>(A demonstração desta propriedade exige a sequência de lemas e teoremas apresentados nos itens 23 a 30 do livro).</p>
+            <p>3) A função exponencial <span class="math-symbol">f(x) = a<sup>x</sup></span>, com <span class="math-symbol">0 < a ≠ 1</span>, é injetora.</p>
+            <p><em>(O livro detalha os Lemas 1, 2, 3, 4 e Teoremas 1, 2, 3, 4 nas páginas 28-32 para fundamentar a propriedade 2. Estes não serão transcritos aqui devido à sua extensão e complexidade, mas são essenciais para a compreensão completa.)</em></p>
+             <div class="exercise-block">
+                <h3>EXERCÍCIO</h3>
+                <p class="exercise-item"><strong>59.</strong> Determine o menor valor da expressão (1/2)<sup>4x-x²</sup>.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Resposta do exercício na página 145 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap2_item3_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo II: Função Exponencial</h2>
+            <h3 class="text-xl font-medium mb-2">III. Imagem</h3>
+            <p><strong>31.</strong> Vimos anteriormente, no estudo de potências de expoente real, que, se <span class="math-symbol">a ∈ ℝ<sub>+</sub><sup>*</sup></span>, então <span class="math-symbol">a<sup>x</sup> > 0</span> para todo <span class="math-symbol">x</span> real.</p>
+            <p>Afirmamos, então, que a imagem da função exponencial é: Im = ℝ<sub>+</sub><sup>*</sup>.</p>
+        </div>
+        
+        <div id="cap2_item4_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo II: Função Exponencial</h2>
+            <h3 class="text-xl font-medium mb-2">IV. Gráfico</h3>
+            <p><strong>32.</strong> Com relação ao gráfico cartesiano da função <span class="math-symbol">f(x) = a<sup>x</sup></span>, podemos dizer:</p>
+            <ol class="list-decimal list-inside ml-4">
+                <li>a curva representativa está toda acima do eixo dos x, pois <span class="math-symbol">y = a<sup>x</sup> > 0</span> para todo <span class="math-symbol">x ∈ ℝ</span>;</li>
+                <li>corta o eixo y no ponto de ordenada 1;</li>
+                <li>se <span class="math-symbol">a > 1</span> é o gráfico de uma função crescente e se <span class="math-symbol">0 < a < 1</span> é o gráfico de uma função decrescente;</li>
+                <li>toma um dos aspectos das figuras abaixo.</li>
+            </ol>
+            <div class="flex justify-around">
+                <div class="img-placeholder">Gráfico de y = a<sup>x</sup> (a > 1) <br> (Ver p. 33 do livro)</div>
+                <div class="img-placeholder">Gráfico de y = a<sup>x</sup> (0 < a < 1) <br> (Ver p. 33 do livro)</div>
+            </div>
+            <p><strong>33. Exemplos:</strong></p>
+            <p>1º) Construir o gráfico da função exponencial de base 2, <span class="math-symbol">f(x) = 2<sup>x</sup></span>.</p>
+            <div class="img-placeholder">Gráfico de f(x) = 2<sup>x</sup> (Ver p. 34 do livro)</div>
+            <p>2º) Construir o gráfico da função exponencial de base 1/2, <span class="math-symbol">f(x) = (1/2)<sup>x</sup></span>.</p>
+            <div class="img-placeholder">Gráfico de f(x) = (1/2)<sup>x</sup> (Ver p. 34 do livro)</div>
+            <p>3º) Construir o gráfico da função exponencial de base e, <span class="math-symbol">f(x) = e<sup>x</sup></span>. (e ≈ 2,7183)</p>
+            <div class="img-placeholder">Gráfico de f(x) = e<sup>x</sup> (Ver p. 35 do livro)</div>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>60.</strong> Construa os gráficos cartesianos das seguintes funções exponenciais: a) y = 3<sup>x</sup> b) y = (1/3)<sup>x</sup> c) y = 4<sup>x</sup> d) y = 10<sup>x</sup> e) y = 10<sup>-x</sup> f) y = (1/e)<sup>x</sup></p>
+                <p class="exercise-item"><strong>61.</strong> Construa o gráfico cartesiano da função em ℝ definida por f(x) = 2<sup>2x-1</sup>.</p>
+                <p class="exercise-item"><strong>62.</strong> Construa os gráficos das funções em ℝ definidas por: a) f(x) = 2<sup>1-x</sup> b) f(x) = 3<sup>(x+1)/2</sup> c) f(x) = 2<sup>|x|</sup> d) f(x) = (1/2)<sup>|x|</sup> e) f(x) = (1/2)<sup>2x+1</sup></p>
+                <p class="exercise-item"><strong>63.</strong> Represente graficamente a função f(x) = e<sup>x²</sup>.</p>
+                <p class="exercise-item"><strong>64.</strong> Represente graficamente a função f: ℝ → ℝ, definida por f(x) = e<sup>-x²</sup>.</p>
+                <p class="exercise-item"><strong>65.</strong> Construa o gráfico da função em ℝ definida por f(x) = 2<sup>x</sup> + 1.</p>
+                <p class="exercise-item"><strong>66.</strong> Construa os gráficos das funções em ℝ definidas por: a) f(x) = 2<sup>x</sup> - 3 b) f(x) = (1/3)<sup>x</sup> + 1 c) f(x) = 2 - 3<sup>x</sup> d) f(x) = 3 - (1/2)<sup>x</sup></p>
+                <p class="exercise-item"><strong>67.</strong> Construa os gráficos das funções em ℝ definidas por: a) f(x) = 2<sup>x</sup> + 2<sup>-x</sup> b) f(x) = 2<sup>x</sup> - 2<sup>-x</sup></p>
+                <p class="exercise-item"><strong>68.</strong> Construa o gráfico da função em ℝ definida por f(x) = 3 ⋅ 2<sup>x-1</sup>.</p>
+                <p class="exercise-item"><strong>69.</strong> Construa os gráficos das funções em ℝ definidas por: a) f(x) = (1/2) ⋅ 3<sup>x</sup> b) f(x) = 0,1 ⋅ 2<sup>2x-3</sup> c) f(x) = (1/5) ⋅ 3<sup>2x-1</sup> d) f(x) = 3 ⋅ 2<sup>(x+1)/2</sup></p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas (gráficos) dos exercícios nas páginas 145-147 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap2_item5_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo II: Função Exponencial</h2>
+            <h3 class="text-xl font-medium mb-2">V. Equações Exponenciais</h3>
+            <h4 class="text-lg font-medium mt-3 mb-1">34. Definição</h4>
+            <p>Equações exponenciais são equações com incógnita no expoente. Exemplos: 2<sup>x</sup> = 64, (√3)<sup>x</sup> = ³√81, 4<sup>x</sup> - 2<sup>x</sup> = 2.</p>
+            <h4 class="text-lg font-medium mt-3 mb-1">35. Método da redução a uma base comum</h4>
+            <p>Este método será aplicado quando ambos os membros da equação, com as transformações convenientes baseadas nas propriedades de potências, forem redutíveis a potências de mesma base <span class="math-symbol">a</span> (<span class="math-symbol">0 < a ≠ 1</span>). Pelo fato de a função exponencial <span class="math-symbol">f(x) = a<sup>x</sup></span> ser injetora, podemos concluir que potências iguais e de mesma base têm os expoentes iguais, isto é: <span class="math-symbol">a<sup>b</sup> = a<sup>c</sup> ⇔ b = c</span> (<span class="math-symbol">0 < a ≠ 1</span>).</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>70.</strong> Resolva as seguintes equações exponenciais: a) 2<sup>x</sup> = 64 b) 8<sup>x</sup> = 1/32 c) (√3)<sup>x</sup> = ³√81</p>
+                <p class="exercise-item"><strong>71.</strong> Resolva as seguintes equações exponenciais: a) 2<sup>x</sup> = 128 ... (até n)</p>
+                <p class="exercise-item"><strong>72.</strong> Resolva as seguintes equações exponenciais: a) 2<sup>3x-1</sup> = 32 ... (até n)</p>
+                <p class="exercise-item"><strong>73.</strong> Resolva a equação 4<sup>x²+4x</sup> = 4<sup>12</sup>.</p>
+                <p class="exercise-item"><strong>74.</strong> Determine os valores de x que satisfazem a equação 100 ⋅ 10<sup>x</sup> = <sup>x</sup>√(1000<sup>5</sup>).</p>
+                <p class="exercise-item"><strong>75.</strong> Resolva as equações exponenciais abaixo: a) (2<sup>x</sup>)<sup>x-1</sup> = 4 b) 3<sup>2x-1</sup> ⋅ 9<sup>3x+4</sup> = 27<sup>x+1</sup> c) √[5<sup>x-2</sup>] ⋅ <sup>x</sup>√[25<sup>2x-5</sup>] - <sup>2x</sup>√[5<sup>3x-2</sup>] = 0</p>
+                <p class="exercise-item"><strong>76.</strong> Resolva as seguintes equações exponenciais: a) (2<sup>x</sup>)<sup>x+4</sup> = 32 ... (até j)</p>
+                <p class="exercise-item"><strong>77.</strong> Determine os valores de x que satisfazem a equação (4<sup>3-x</sup>)<sup>2-x</sup> = 1.</p>
+                <p class="exercise-item"><strong>78.</strong> Resolva a equação exponencial: 2<sup>x-1</sup> + 2<sup>x</sup> + 2<sup>x+1</sup> - 2<sup>x+2</sup> + 2<sup>x+3</sup> = 120.</p>
+                <p class="exercise-item"><strong>79.</strong> Resolva as seguintes equações exponenciais: a) 3<sup>x-1</sup> - 3<sup>x</sup> + 3<sup>x+1</sup> + 3<sup>x+2</sup> = 306 ... (até f)</p>
+                <p class="exercise-item"><strong>80.</strong> Resolva as seguintes equações exponenciais: a) 4<sup>x</sup> - 2<sup>x</sup> = 56 b) 4<sup>x+1</sup> - 9 ⋅ 2<sup>x</sup> + 2 = 0</p>
+                <p class="exercise-item"><strong>81.</strong> Resolva as seguintes equações exponenciais: a) 4<sup>x</sup> - 2<sup>x</sup> - 2 = 0 ... (até j)</p>
+                <p class="exercise-item"><strong>82.</strong> Resolva a equação 25<sup>√x</sup> - 124 ⋅ 5<sup>√x</sup> = 125.</p>
+                <p class="exercise-item"><strong>83.</strong> Calcule o produto das soluções da equação 4<sup>x²+2</sup> - 3 ⋅ 2<sup>x²+3</sup> = 160.</p>
+                <p class="exercise-item"><strong>84.</strong> Resolva as seguintes equações exponenciais: a) 3<sup>x</sup> - 15/(3<sup>x-1</sup>) + 3<sup>x-3</sup> = 23/(3<sup>x-2</sup>) ... (até c)</p>
+                <p class="exercise-item"><strong>85.</strong> Resolva a equação exponencial: 3<sup>(x² + 1/x²)</sup> = 81 / 3<sup>(x + 1/x)</sup>.</p>
+                <p class="exercise-item"><strong>86.</strong> Determine o número de soluções distintas da equação 2<sup>x</sup> - 2<sup>-x</sup> = k, para k real.</p>
+                <p class="exercise-item"><strong>87.</strong> Resolva a equação exponencial: (3<sup>x</sup> + 3<sup>-x</sup>) / (3<sup>x</sup> - 3<sup>-x</sup>) = 2.</p>
+                <p class="exercise-item"><strong>88.</strong> Resolva a equação exponencial: 4<sup>x</sup> - 3<sup>x-1/2</sup> = 3<sup>x+1/2</sup> - 2<sup>2x-1</sup>.</p>
+                <p class="exercise-item"><strong>89.</strong> Resolva a equação: 3<sup>x-1</sup> - 5/(3<sup>x+1</sup>) = 4 ⋅ 3<sup>1-3x</sup>.</p>
+                <p class="exercise-item"><strong>90.</strong> Resolva a equação: 8<sup>x</sup> - 3 ⋅ 4<sup>x</sup> - 3 ⋅ 2<sup>x+1</sup> + 8 = 0.</p>
+                <p class="exercise-item"><strong>91.</strong> Resolva as equações em ℝ<sub>+</sub>: a) x<sup>x²-5x+6</sup> = 1 b) x<sup>2x²-7x+4</sup> = x</p>
+                <p class="exercise-item"><strong>92.</strong> Resolva as equações em ℝ<sub>+</sub>: a) x<sup>2-3x</sup> = 1 ... (até e)</p>
+                <p class="exercise-item"><strong>93.</strong> Resolva as equações em ℝ<sub>+</sub>: a) x<sup>x</sup> = x ... (até d)</p>
+                <p class="exercise-item"><strong>94.</strong> Resolva em ℝ a equação (x² - x + 1)<sup>(2x²-3x-2)</sup> = 1.</p>
+                <p class="exercise-item"><strong>95.</strong> Determine, em ℝ<sub>+</sub>, o conjunto solução da equação x<sup>(x³-8)</sup> = 1.</p>
+                <p class="exercise-item"><strong>96.</strong> Determine o número de soluções de 2<sup>x</sup> = x².</p>
+                <p class="exercise-item"><strong>97.</strong> Resolva em ℝ<sub>+</sub> a equação x<sup>2x</sup> - (x² + x)x<sup>x</sup> + x³ = 0.</p>
+                <p class="exercise-item"><strong>98.</strong> Resolva a equação 4<sup>x</sup> + 6<sup>x</sup> = 2 ⋅ 9<sup>x</sup>.</p>
+                <p class="exercise-item"><strong>99.</strong> Resolva as equações: a) 4<sup>x</sup> + 2 ⋅ 14<sup>x</sup> = 3 ⋅ 49<sup>x</sup> b) 2<sup>2x+2</sup> - 6<sup>x</sup> - 2 ⋅ 3<sup>2x+2</sup> = 0</p>
+                <p class="exercise-item"><strong>100.</strong> Resolva os seguintes sistemas de equações: a) { 4<sup>x</sup> = 16y ; 2<sup>x+1</sup> = 4y } ... (até d)</p>
+                <p class="exercise-item"><strong>101.</strong> Se { 3<sup>x+y</sup> = 1 ; 2<sup>x+2y</sup> = 2 }, calcule o valor de x - y.</p>
+                <p class="exercise-item"><strong>102.</strong> Calcule o produto das soluções das equações: { 2<sup>x</sup> ⋅ 3<sup>y</sup> = 108 ; 4<sup>x</sup> ⋅ 2<sup>y</sup> = 128 }</p>
+                <p class="exercise-item"><strong>103.</strong> Resolva o sistema de equações: { x<sup>y²-15y+56</sup> = 1 ; y - x = 5 }</p>
+                <p class="exercise-item"><strong>104.</strong> Resolva os sistemas de equações para x ∈ ℝ<sub>+</sub>, y ∈ ℝ<sub>+</sub>: a) { x<sup>x+y</sup> = y<sup>x-y</sup> ; x²y = 1 } b) { x<sup>y</sup> = y<sup>x</sup> ; x³ = y² }</p>
+                <p class="exercise-item"><strong>105.</strong> Resolva o sistema de equações para x > 0 e y > 0 sendo m ⋅ n > 0: { x<sup>y</sup> = y<sup>x</sup> ; x<sup>m</sup> = y<sup>n</sup> }</p>
+                <p class="exercise-item"><strong>106.</strong> Para que valores reais de m a equação 4<sup>x</sup> - (m - 2) ⋅ 2<sup>x</sup> + 2m + 1 = 0 admite pelo menos uma raiz real?</p>
+                <p class="exercise-item"><strong>107.</strong> Determine m real para que as equações abaixo admitam pelo menos uma raiz real: a) 3<sup>2x</sup> - (2m + 3) ⋅ 3<sup>x</sup> + (m + 3) = 0 ... (até c)</p>
+                <p class="exercise-item"><strong>108.</strong> Determine m real para que a equação m(2<sup>x</sup> - 1)² - 2<sup>x</sup>(2<sup>x</sup> - 1) + 1 = 0 admita pelo menos uma raiz real.</p>
+                <p class="exercise-item"><strong>109.</strong> Para que valores reais de m a equação 2<sup>x</sup> + 2<sup>-x</sup> = m admite pelo menos uma raiz real?</p>
+                <p class="exercise-item"><strong>110.</strong> Para que valores reais de m a equação (a<sup>x</sup> + a<sup>-x</sup>) / (a<sup>x</sup> - a<sup>-x</sup>) = m, com 0 < a ≠ 1, admite raiz real?</p>
+                <p class="exercise-item"><strong>111.</strong> Mostre que a equação a<sup>2x</sup> - (m + 1)a<sup>x</sup> + (m - 1) = 0, com 0 < a ≠ 1, admite pelo menos uma raiz real, qualquer que seja m real.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 147-149 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap2_item6_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo II: Função Exponencial</h2>
+            <h3 class="text-xl font-medium mb-2">VI. Inequações Exponenciais</h3>
+            <h4 class="text-lg font-medium mt-3 mb-1">36. Definição</h4>
+            <p>Inequações exponenciais são as inequações com incógnita no expoente. Exemplos: 2<sup>x</sup> > 32, (√5)<sup>x</sup> ≤ ³√25, 4<sup>x</sup> - 2 > 2<sup>x</sup>.</p>
+            <h4 class="text-lg font-medium mt-3 mb-1">37. Método da redução a uma base comum</h4>
+            <p>Este método será aplicado quando ambos os membros da inequação puderem ser representados como potências de mesma base <span class="math-symbol">a</span> (<span class="math-symbol">0 < a ≠ 1</span>).</p>
+            <p>Lembremos que a função exponencial <span class="math-symbol">f(x) = a<sup>x</sup></span> é crescente, se <span class="math-symbol">a > 1</span>, ou decrescente, se <span class="math-symbol">0 < a < 1</span>; portanto:</p>
+            <p>Se <span class="math-symbol">b</span> e <span class="math-symbol">c</span> são números reais, então:</p>
+            <p>para <span class="math-symbol">a > 1</span> tem-se <span class="math-symbol">a<sup>b</sup> > a<sup>c</sup> ⇔ b > c</span></p>
+            <p>para <span class="math-symbol">0 < a < 1</span> tem-se <span class="math-symbol">a<sup>b</sup> > a<sup>c</sup> ⇔ b < c</span></p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>112.</strong> Classifique em verdadeira (V) ou falsa (F) as seguintes sentenças: a) 3<sup>2,7</sup> > 1 ... (até f)</p>
+                <p class="exercise-item"><strong>113.</strong> Classifique em verdadeira (V) ou falsa (F) as seguintes sentenças: a) 2<sup>1,3</sup> > 2<sup>1,2</sup> ... (até j)</p>
+                <p class="exercise-item"><strong>114.</strong> Classifique em verdadeira (V) ou falsa (F) as seguintes sentenças: a) 2<sup>0,4</sup> > 4<sup>0,3</sup> ... (até h)</p>
+                <p class="exercise-item"><strong>115.</strong> Resolva as seguintes inequações exponenciais: a) 2<sup>x</sup> > 128 b) (3/5)<sup>x</sup> ≥ 125/27 c) (³√2)<sup>x</sup> < ⁴√8</p>
+                <p class="exercise-item"><strong>116.</strong> Resolva as seguintes inequações exponenciais: a) 2<sup>x</sup> < 32 ... (até l)</p>
+                <p class="exercise-item"><strong>117.</strong> Resolva as seguintes inequações exponenciais: a) 3<sup>2x+3</sup> > 243 ... (até n)</p>
+                <p class="exercise-item"><strong>118.</strong> Resolva, em ℝ, a inequação (1/2)<sup>x²+5x+1</sup> ≥ 1/2.</p>
+                <p class="exercise-item"><strong>119.</strong> Resolva as seguintes inequações exponenciais: a) 8 < 2<sup>x</sup> < 32 ... (até k)</p>
+                <p class="exercise-item"><strong>120.</strong> Resolva as seguintes inequações exponenciais: a) (3<sup>x</sup>)<sup>2x-7</sup> > 1/27 b) [(1/2<sup>x</sup>)]<sup>3x+1</sup> ⋅ 4<sup>1+2x-x²</sup> ≥ (1/8)<sup>x-1</sup> c) 7<sup>(x+1)/(x-1)</sup> : 7<sup>(x-1)/(x+1)</sup> < √343</p>
+                <p class="exercise-item"><strong>121.</strong> Resolva as inequações exponenciais: a) (2<sup>x+1</sup>)<sup>2x-3</sup> < 128 ... (até h)</p>
+                <p class="exercise-item"><strong>122.</strong> Resolva a inequação: 2<sup>x</sup> - 2<sup>x+1</sup> - 2<sup>x+2</sup> - 2<sup>x+3</sup> + 2<sup>x+4</sup> < 3/4</p>
+                <p class="exercise-item"><strong>123.</strong> Resolva as seguintes inequações exponenciais: a) 2<sup>x-1</sup> + 2<sup>x</sup> + 2<sup>x+1</sup> - 2<sup>x+2</sup> + 2<sup>x+3</sup> > 240 ... (até f)</p>
+                <p class="exercise-item"><strong>124.</strong> Resolva as seguintes inequações: a) 3<sup>2x+2</sup> - 3<sup>x+3</sup> > 3<sup>x</sup> - 3 b) 2<sup>x</sup> - 1 > 2<sup>1-x</sup> c) 4<sup>x+1/2</sup> + 5 ⋅ 2<sup>x</sup> + 2 > 0</p>
+                <p class="exercise-item"><strong>125.</strong> Resolva as seguintes inequações: a) 4<sup>x</sup> - 6 ⋅ 2<sup>x</sup> + 8 < 0 ... (até l)</p>
+                <p class="exercise-item"><strong>126.</strong> Determine o conjunto solução da inequação 2<sup>2x+2</sup> - 0,75 ⋅ 2<sup>x+2</sup> < 1.</p>
+                <p class="exercise-item"><strong>127.</strong> Resolva a inequação 2<sup>x+5</sup> + 3<sup>x</sup> < 3<sup>x+2</sup> + 2<sup>x+2</sup> + 2<sup>x</sup>.</p>
+                <p class="exercise-item"><strong>128.</strong> Determine o conjunto de todos os números reais x para os quais (e<sup>x</sup> + 1)/(1 - x²) < 0.</p>
+                <p class="exercise-item"><strong>129.</strong> Resolva a inequação x<sup>2x²-9x+4</sup> < 1 em ℝ<sub>+</sub>.</p>
+                <p class="exercise-item"><strong>130.</strong> Resolva em ℝ<sub>+</sub> as inequações: a) x<sup>5x-2</sup> > 1 ... (até f)</p>
+                <p class="exercise-item"><strong>131.</strong> Resolva em ℝ a inequação |x|<sup>3x²-4x-4</sup> > 1.</p>
+                <p class="exercise-item"><strong>132.</strong> Resolva em ℝ<sub>+</sub> as inequações: a) x<sup>2x+4</sup> < x ... (até e)</p>
+                <p class="exercise-item"><strong>133.</strong> Resolva em ℝ<sub>+</sub> as inequações: a) x<sup>x²</sup> > x<sup>2x</sup> b) x² < x<sup>x²-7x+8</sup> c) x<sup>x²-x-2</sup> ≥ x<sup>4</sup></p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 149-152 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap2_leitura_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Leitura: Os Logaritmos Segundo Napier</h2>
+            <p>John Napier (1550-1617), barão escocês, dedicou cerca de 20 anos à criação dos logaritmos, publicando "Mirifici logarithmorum canonis descriptio" em 1614. Seu objetivo era simplificar cálculos complexos, especialmente em trigonometria para navegação e astronomia.</p>
+            <p>Napier concebeu logaritmos geometricamente, imaginando pontos a percorrer segmentos de reta e semirretas com velocidades variáveis e constantes. Seus logaritmos, embora não baseados em potências como os modernos, estão relacionados à base 1/e. Em conversas com Henry Briggs, concordaram que logaritmos de base 10 seriam mais práticos, trabalho que Briggs continuaria. Embora as tábuas de logaritmos tenham perdido utilidade com calculadoras e computadores, as propriedades funcionais das funções logarítmica e exponencial, especialmente na base <span class="math-symbol">e</span>, permanecem cruciais na Matemática.</p>
+            <div class="img-placeholder">Retrato de John Napier (Ver p. 56 do livro)</div>
+        </div>
+
+        <div id="cap3_item1_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo III: Logaritmos</h2>
+            <h3 class="text-xl font-medium mb-2">I. Conceito de Logaritmo</h3>
+            <p><strong>39. Definição</strong></p>
+            <p>Sendo <span class="math-symbol">a</span> e <span class="math-symbol">b</span> números reais e positivos, com <span class="math-symbol">a ≠ 1</span>, chama-se logaritmo de <span class="math-symbol">b</span> na base <span class="math-symbol">a</span> o expoente que se deve dar à base <span class="math-symbol">a</span> de modo que a potência obtida seja igual a <span class="math-symbol">b</span>.</p>
+            <p>Em símbolos: se <span class="math-symbol">a, b ∈ ℝ</span>, <span class="math-symbol">0 < a ≠ 1</span> e <span class="math-symbol">b > 0</span>, então:</p>
+            <p><code class="text-lg">log<sub>a</sub>b = x ⇔ a<sup>x</sup> = b</code></p>
+            <p>Em log<sub>a</sub>b = x, dizemos: <span class="math-symbol">a</span> é a base do logaritmo, <span class="math-symbol">b</span> é o logaritmando e <span class="math-symbol">x</span> é o logaritmo.</p>
+            <p><strong>40. Exemplos:</strong></p>
+            <ul class="list-disc list-inside ml-4">
+                <li>1º) log<sub>2</sub>8 = 3, pois 2<sup>3</sup> = 8</li>
+                <li>2º) log<sub>3</sub>(1/9) = -2, pois 3<sup>-2</sup> = 1/9</li>
+                <li>3º) log<sub>5</sub>5 = 1, pois 5<sup>1</sup> = 5</li>
+                <li>4º) log<sub>7</sub>1 = 0, pois 7<sup>0</sup> = 1</li>
+                <li>5º) log<sub>4</sub>8 = 3/2, pois 4<sup>3/2</sup> = (2<sup>2</sup>)<sup>3/2</sup> = 2<sup>3</sup> = 8</li>
+                <li>6º) log<sub>0,2</sub>25 = -2, pois (0,2)<sup>-2</sup> = (1/5)<sup>-2</sup> = 5<sup>2</sup> = 25</li>
+            </ul>
+        </div>
+
+        <div id="cap3_item2_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo III: Logaritmos</h2>
+            <h3 class="text-xl font-medium mb-2">II. Antilogaritmo</h3>
+            <p><strong>41. Definição</strong></p>
+            <p>Sejam <span class="math-symbol">a</span> e <span class="math-symbol">b</span> números reais positivos com <span class="math-symbol">a ≠ 1</span>; se o logaritmo de <span class="math-symbol">b</span> na base <span class="math-symbol">a</span> é <span class="math-symbol">x</span>, então <span class="math-symbol">b</span> é o antilogaritmo de <span class="math-symbol">x</span> na base <span class="math-symbol">a</span>.</p>
+            <p>Em símbolos, se <span class="math-symbol">a, b ∈ ℝ, 0 < a ≠ 1</span> e <span class="math-symbol">b > 0</span>, então:</p>
+            <p><code class="text-lg">log<sub>a</sub>b = x ⇔ b = antilog<sub>a</sub>x</code></p>
+            <p>Exemplos:</p>
+            <ul class="list-disc list-inside ml-4">
+                <li>1º) antilog<sub>3</sub>2 = 9, pois log<sub>3</sub>9 = 2</li>
+                <li>2º) antilog<sub>1/2</sub>3 = 1/8, pois log<sub>1/2</sub>(1/8) = 3</li>
+                <li>3º) antilog<sub>2</sub>(-2) = 1/4, pois log<sub>2</sub>(1/4) = -2</li>
+            </ul>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>134.</strong> Calcule pela definição os seguintes logaritmos:</p>
+                <p class="exercise-item ml-4">a) log<sub>2</sub>(1/8)</p>
+                <p class="exercise-item ml-4">b) log<sub>8</sub>4</p>
+                <p class="exercise-item ml-4">c) log<sub>0,25</sub>32</p>
+                <p class="exercise-item"><strong>135.</strong> Calcule pela definição os seguintes logaritmos: a) log<sub>4</sub>16 ... (até l)</p>
+                <p class="exercise-item"><strong>136.</strong> As indicações R<sub>1</sub> e R<sub>2</sub>, na escala Richter, de dois terremotos estão relacionadas pela fórmula R<sub>1</sub> - R<sub>2</sub> = log<sub>10</sub>(M<sub>1</sub>/M<sub>2</sub>) ... (problema completo na p.59)</p>
+                <p class="exercise-item"><strong>137.</strong> Calcule pela definição os seguintes logaritmos: a) log<sub>2</sub>√2 ... (até i)</p>
+                <p class="exercise-item"><strong>138.</strong> Determine o conjunto verdade da equação log<sub>(5/3)</sub>³√[(9/25)<sup>x</sup>] = x.</p>
+                <p class="exercise-item"><strong>139.</strong> Calcule a soma S nos seguintes casos: a) S = log<sub>100</sub>0,001 + log<sub>1,5</sub>(4/9) - log<sub>1,25</sub>0,64 ... (até c)</p>
+                <p class="exercise-item"><strong>140.</strong> Calcule o valor de S: S = log<sub>4</sub>(log<sub>3</sub>9) + log<sub>2</sub>(log<sub>81</sub>3) + log<sub>0,8</sub>(log<sub>16</sub>32)</p>
+                <p class="exercise-item"><strong>141.</strong> Calcule: a) antilog<sub>3</sub>4 b) antilog<sub>16</sub>(1/2) c) antilog<sub>3</sub>(-2) d) antilog<sub>1/2</sub>(-4)</p>
+                <p class="exercise-item"><strong>142.</strong> Determine o valor de x na equação y = 2<sup>log<sub>3</sub>(x+4)</sup> para que y seja igual a 8.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 149-150 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap3_item3_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo III: Logaritmos</h2>
+            <h3 class="text-xl font-medium mb-2">III. Consequências da Definição</h3>
+            <p><strong>42.</strong> Decorrem da definição de logaritmos as seguintes propriedades para <span class="math-symbol">0 < a ≠ 1, b > 0</span>:</p>
+            <ol class="list-decimal list-inside ml-4">
+                <li>"O logaritmo da unidade em qualquer base é igual a 0." <br> <code class="text-lg">log<sub>a</sub>1 = 0</code></li>
+                <li>"O logaritmo da base em qualquer base é igual a 1." <br> <code class="text-lg">log<sub>a</sub>a = 1</code></li>
+                <li>"A potência de base <span class="math-symbol">a</span> e expoente log<sub>a</sub>b é igual a <span class="math-symbol">b</span>." <br> <code class="text-lg">a<sup>log<sub>a</sub>b</sup> = b</code></li>
+                <li>"Dois logaritmos em uma mesma base são iguais se, e somente se, os logaritmandos forem iguais." <br> <code class="text-lg">log<sub>a</sub>b = log<sub>a</sub>c ⇔ b = c</code></li>
+            </ol>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>143.</strong> Calcule o valor de: a) 8<sup>log<sub>2</sub>5</sup> b) 3<sup>1+log<sub>3</sub>4</sup></p>
+                <p class="exercise-item"><strong>144.</strong> Calcule o valor de: a) 3<sup>log<sub>3</sub>2</sup> ... (até h)</p>
+                <p class="exercise-item"><strong>145.</strong> Calcule: a) antilog<sub>2</sub>(log<sub>2</sub>3) b) antilog<sub>3</sub>(log<sub>3</sub>5)</p>
+                <p class="exercise-item"><strong>146.</strong> Se A = 5<sup>log<sub>25</sub>2</sup>, determine o valor de A³.</p>
+                <p class="exercise-item"><strong>147.</strong> Determine o valor de A tal que 4<sup>log<sub>2</sub>A</sup> + 2A - 2 = 0.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios na página 150 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap3_item4_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo III: Logaritmos</h2>
+            <h3 class="text-xl font-medium mb-2">IV. Sistemas de Logaritmos</h3>
+            <p><strong>43.</strong> Chamamos de sistema de logaritmos de base <span class="math-symbol">a</span> o conjunto de todos os logaritmos dos números reais positivos em uma base <span class="math-symbol">a</span> (<span class="math-symbol">0 < a ≠ 1</span>).</p>
+            <p>Dois sistemas são particularmente importantes:</p>
+            <ul class="list-disc list-inside ml-4">
+                <li>a) <strong>Sistema de logaritmos decimais:</strong> base 10. Notação: log<sub>10</sub>x ou simplesmente log x.</li>
+                <li>b) <strong>Sistema de logaritmos neperianos:</strong> base <span class="math-symbol">e</span> (e ≈ 2,71828...). Notação: log<sub>e</sub>x ou ln x.</li>
+            </ul>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>148.</strong> Seja x o número cujo logaritmo na base ³√9 é igual a 0,75. Determine o valor de x² - 1.</p>
+                <p class="exercise-item"><strong>149.</strong> O logaritmo de um número na base 16 é 2/3. Calcule o logaritmo desse número na base 1/4.</p>
+                <p class="exercise-item"><strong>150.</strong> Determine o número cujo logaritmo na base a é 4 e na base a/3 é 8.</p>
+                <p class="exercise-item"><strong>151.</strong> Calcule o logaritmo de 144 no sistema de base 2√3.</p>
+                <p class="exercise-item"><strong>152.</strong> Determine a base do sistema de logaritmos no qual o logaritmo de √2 vale -1.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios na página 150 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap3_item5_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo III: Logaritmos</h2>
+            <h3 class="text-xl font-medium mb-2">V. Propriedades dos Logaritmos</h3>
+            <p><strong>44. 1ª) Logaritmo do produto:</strong> log<sub>a</sub>(b ⋅ c) = log<sub>a</sub>b + log<sub>a</sub>c</p>
+            <p><strong>45. Observações (produto):</strong> Estende-se para <span class="math-symbol">n</span> fatores. Se b⋅c > 0, então log<sub>a</sub>(b⋅c) = log<sub>a</sub>|b| + log<sub>a</sub>|c|.</p>
+            <p><strong>46. 2ª) Logaritmo do quociente:</strong> log<sub>a</sub>(b/c) = log<sub>a</sub>b - log<sub>a</sub>c</p>
+            <p><strong>47. Observações (quociente):</strong> log<sub>a</sub>(1/c) = -log<sub>a</sub>c. Se b/c > 0, então log<sub>a</sub>(b/c) = log<sub>a</sub>|b| - log<sub>a</sub>|c|.</p>
+            <p><strong>48. Cologaritmo:</strong> colog<sub>a</sub>b = -log<sub>a</sub>b = log<sub>a</sub>(1/b)</p>
+            <p><strong>49. 3ª) Logaritmo da potência:</strong> log<sub>a</sub>b<sup>α</sup> = α ⋅ log<sub>a</sub>b</p>
+            <p><strong>50. Observações (potência):</strong> Corolário: log<sub>a</sub>(<sup>n</sup>√b) = (1/n) ⋅ log<sub>a</sub>b. Se b<sup>α</sup> > 0, então log<sub>a</sub>b<sup>α</sup> = α ⋅ log<sub>a</sub>|b|.</p>
+            <p><strong>51.</strong> Não há regras simples para log<sub>a</sub>(b+c) ou log<sub>a</sub>(b-c).</p>
+            <p><strong>52.</strong> Expressões com multiplicação, divisão e potenciação podem ser calculadas usando logaritmos.</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>153.</strong> Desenvolva, aplicando as propriedades dos logaritmos (a, b e c são reais positivos): a) log<sub>2</sub>(2ab/c) ... (até c)</p>
+                <p class="exercise-item"><strong>154.</strong> Desenvolva, aplicando as propriedades dos logaritmos (a, b e c são reais positivos): a) log<sub>5</sub>(5a/bc) ... (até h)</p>
+                <p class="exercise-item"><strong>155.</strong> Se m = (b⋅c)/d², determine log m.</p>
+                <p class="exercise-item"><strong>156.</strong> Seja x = √a / (bc). Calcule log x.</p>
+                <p class="exercise-item"><strong>157.</strong> Desenvolva, aplicando as propriedades dos logaritmos (a > b > c > 0): a) log<sub>2</sub>[2a/(a²-b²)] ... (até d)</p>
+                <p class="exercise-item"><strong>158.</strong> Qual é a expressão cujo desenvolvimento logarítmico é: 1 + log<sub>2</sub>a - log<sub>2</sub>b - 2log<sub>2</sub>c (a, b e c são reais positivos)?</p>
+                <p class="exercise-item"><strong>159.</strong> Qual é a expressão cujo desenvolvimento logarítmico é dado abaixo (a, b e c são reais positivos)? a) log<sub>2</sub>a + log<sub>2</sub>b - log<sub>2</sub>c ... (até g)</p>
+                <p class="exercise-item"><strong>160.</strong> Qual é a expressão cujo desenvolvimento logarítmico é dado abaixo (a > b > c > 0)? a) 1 + log<sub>2</sub>(a+b) - log<sub>2</sub>(a-b) ... (até e)</p>
+                <p class="exercise-item"><strong>161.</strong> Se log x = log b + 2log c - (1/3)log a, determine o valor de x.</p>
+                <p class="exercise-item"><strong>162.</strong> Se log 2 = a e log 3 = b, coloque em função de a e b os seguintes logaritmos decimais: a) log 6 ... (até h, com sugestão para g)</p>
+                <p class="exercise-item"><strong>163.</strong> O pH de uma solução é definido por pH = log<sub>10</sub>(1/H<sup>+</sup>), ... Calcule o pH para H<sup>+</sup> = 1,0 ⋅ 10<sup>-8</sup>.</p>
+                <p class="exercise-item"><strong>164.</strong> Sabendo que log 2 = 0,3010 determine o valor da expressão log(125 / <sup>5</sup>√2).</p>
+                <p class="exercise-item"><strong>165.</strong> Se log<sub>10</sub>2 = 0,301, calcule o valor da expressão log<sub>10</sub>20 + log<sub>10</sub>40 + log<sub>10</sub>800.</p>
+                <p class="exercise-item"><strong>166.</strong> Determine a razão entre os logaritmos de 16 e 4 numa base qualquer.</p>
+                <p class="exercise-item"><strong>167.</strong> Se log a + log b = p, calcule o valor de log(1/a) + log(1/b).</p>
+                <p class="exercise-item"><strong>168.</strong> Se log<sub>2</sub>(a-b) = m e (a+b) = 8, determine log<sub>2</sub>(a²-b²).</p>
+                <p class="exercise-item"><strong>169.</strong> A soma dos logaritmos de dois números na base 9 é 1/2. Determine o produto desses números.</p>
+                <p class="exercise-item"><strong>170.</strong> Se log<sub>a</sub>x = n e log<sub>a</sub>y = 6n, calcule log<sub>a</sub>³√(x²y).</p>
+                <p class="exercise-item"><strong>171.</strong> Sabe-se que log<sub>m</sub>2 = a e log<sub>m</sub>3 = b. Calcule o valor de log<sub>m</sub>(64/2,7) - log<sub>m</sub>60.</p>
+                <p class="exercise-item"><strong>172.</strong> Sendo colog<sub>2</sub>(1/32) = x e log<sub>y</sub>256 = 4, determine o valor de x + y.</p>
+                <p class="exercise-item"><strong>173.</strong> Sabendo que log 2 = 0,3010300, quanto vale log 2<sup>20</sup> = log 1048576?</p>
+                <p class="exercise-item"><strong>174.</strong> Sendo log<sub>10</sub>2 ≅ 0,3, determine o menor número natural n que verifica a relação 2<sup>n</sup> > 10<sup>4</sup>.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 150-151 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap3_item6_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo III: Logaritmos</h2>
+            <h3 class="text-xl font-medium mb-2">VI. Mudança de Base</h3>
+            <p><strong>53.</strong> Conversão de logaritmos para uma única base conveniente.</p>
+            <p><strong>54. Propriedade:</strong> Se <span class="math-symbol">a, b, c</span> são reais positivos e <span class="math-symbol">a, c ≠ 1</span>, então: log<sub>a</sub>b = (log<sub>c</sub>b) / (log<sub>c</sub>a).</p>
+            <p><strong>56. Observação:</strong> log<sub>a</sub>b = log<sub>c</sub>b ⋅ log<sub>a</sub>c.</p>
+            <p><strong>57. Consequências:</strong></p>
+            <ol class="list-decimal list-inside ml-4">
+                <li>log<sub>a</sub>b = 1 / (log<sub>b</sub>a)</li>
+                <li>log<sub>a<sup>β</sup></sub>b = (1/β)log<sub>a</sub>b (β ≠ 0)</li>
+            </ol>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>175.</strong> Sabendo que log<sub>30</sub>3 = a e log<sub>30</sub>5 = b, calcule log<sub>10</sub>2.</p>
+                <p class="exercise-item"><strong>176.</strong> Sabendo que log<sub>20</sub>2 = a e log<sub>20</sub>3 = b, calcule log<sub>6</sub>5.</p>
+                <p class="exercise-item"><strong>177.</strong> Se log<sub>ab</sub>a = 4, calcule log<sub>ab</sub>(³√a / √b).</p>
+                <p class="exercise-item"><strong>178.</strong> Se log<sub>12</sub>27 = a, calcule log<sub>6</sub>16.</p>
+                <p class="exercise-item"><strong>179.</strong> Calcule o valor de log<sub>0,04</sub>125.</p>
+                <p class="exercise-item"><strong>180.</strong> Se log<sub>2</sub>m = k, determine o valor de log<sub>8</sub>m.</p>
+                <p class="exercise-item"><strong>181.</strong> Dados log<sub>10</sub>2 = a e log<sub>10</sub>3 = b, calcule log<sub>9</sub>20.</p>
+                <p class="exercise-item"><strong>182.</strong> Calcule o valor de log<sub>3</sub>5 ⋅ log<sub>25</sub>27.</p>
+                <p class="exercise-item"><strong>183.</strong> Se m = log<sub>b</sub>a, m ≠ 0, calcule log<sub>1/a</sub>b².</p>
+                <p class="exercise-item"><strong>184.</strong> Determine o valor de log<sub>3</sub>2 ⋅ log<sub>4</sub>3 ⋅ log<sub>5</sub>4 ⋅ ... ⋅ log<sub>10</sub>9.</p>
+                <p class="exercise-item"><strong>185.</strong> Se ab = 1, calcule log<sub>b</sub>√a.</p>
+                <p class="exercise-item"><strong>186.</strong> Sabendo que log<sub>14</sub>7 = a e log<sub>14</sub>5 = b, calcule o valor de log<sub>35</sub>28.</p>
+                <p class="exercise-item"><strong>187.</strong> Calcule A = log<sub>3</sub>5 ⋅ log<sub>4</sub>27 ⋅ log<sub>25</sub>√2.</p>
+                <p class="exercise-item"><strong>188.</strong> Simplifique a<sup>log<sub>a</sub>b ⋅ log<sub>b</sub>c ⋅ log<sub>c</sub>d</sup>.</p>
+                <p class="exercise-item"><strong>189.</strong> Simplifique a<sup>[log(log a)] / log a]</sup>.</p>
+                <p class="exercise-item"><strong>190.</strong> Demonstre que a relação entre os logaritmos de dois números positivos e diferentes de 1 independe da base considerada.</p>
+                <p class="exercise-item"><strong>191.</strong> Se a, b e c são reais positivos com a ≠ 1 e ac ≠ 1, prove que: log<sub>a</sub>b = (log<sub>ac</sub>b)(1 + log<sub>a</sub>c).</p>
+                <p class="exercise-item"><strong>192.</strong> Se a, b e c são reais positivos, diferentes de 1, e a = b⋅c, prove que: 1/(log<sub>a</sub>c) = 1 + 1/(log<sub>b</sub>c).</p>
+                <p class="exercise-item"><strong>193.</strong> Se a, b e c são reais positivos, diferentes de 1, e a⋅b ≠ 1, prove que: (log<sub>a</sub>c ⋅ log<sub>b</sub>c) / (log<sub>ab</sub>c)² = (1 + log<sub>a</sub>b)² / log<sub>a</sub>b.</p>
+                <p class="exercise-item"><strong>194.</strong> Se a, b, c e d são reais positivos, diferentes de 1, e a⋅b ≠ 1, prove que: log<sub>a</sub>d ⋅ log<sub>b</sub>d + log<sub>b</sub>d ⋅ log<sub>c</sub>d + log<sub>c</sub>d ⋅ log<sub>a</sub>d = (log<sub>a</sub>d ⋅ log<sub>b</sub>d ⋅ log<sub>c</sub>d) / log<sub>abc</sub>d.</p>
+                <p class="exercise-item"><strong>195.</strong> Se a e b são reais positivos, prove que: a<sup>log b</sup> = b<sup>log a</sup>.</p>
+                <p class="exercise-item"><strong>196.</strong> Se a, b, c e d são reais positivos, a e c diferentes de 1, prove que: log<sub>a</sub>b<sup>(log<sub>c</sub>d)</sup> = log<sub>c</sub>d<sup>(log<sub>a</sub>b)</sup>.</p>
+                <p class="exercise-item"><strong>197.</strong> Se x = log<sub>c</sub>(ab), y = log<sub>b</sub>(ac) e z = log<sub>a</sub>(bc), prove que: 1/(x+1) + 1/(y+1) + 1/(z+1) = 1.</p>
+                <p class="exercise-item"><strong>198.</strong> Se a, b, c e d são reais positivos, diferentes de 1 e dois a dois distintos, prove a equivalência: (log<sub>a</sub>d)/(log<sub>c</sub>d) = (log<sub>a</sub>d - log<sub>b</sub>d)/(log<sub>b</sub>d - log<sub>c</sub>d) ⇔ b² = ac.</p>
+                <p class="exercise-item"><strong>199.</strong> Se a e b são raízes da equação x² - px + q = 0 (p > 0 e 0 < q ≠ 1), demonstre que: log<sub>q</sub>a<sup>a</sup> + log<sub>q</sub>b<sup>b</sup> + log<sub>q</sub>a<sup>b</sup> + log<sub>q</sub>b<sup>a</sup> = p.</p>
+                <p class="exercise-item"><strong>200.</strong> Se a, b e c são as medidas dos lados de um triângulo retângulo de hipotenusa de medida a e sabendo que a-b ≠ 1 e a+b ≠ 1, demonstre que: log<sub>a+b</sub>c + log<sub>a-b</sub>c = 2 log<sub>a+b</sub>c ⋅ log<sub>a-b</sub>c.</p>
+                <p class="exercise-item"><strong>201.</strong> Se a, b e c são reais positivos, prove a igualdade: (a/b)<sup>log c</sup> ⋅ (b/c)<sup>log a</sup> ⋅ (c/a)<sup>log b</sup> = 1.</p>
+                <p class="exercise-item"><strong>202.</strong> Se x = 10<sup>1/(1-log z)</sup> e y = 10<sup>1/(1-log x)</sup>, prove que: z = 10<sup>1/(1-log y)</sup>.</p>
+                <p class="exercise-item"><strong>203.</strong> Se a, b e c são reais positivos, diferentes de 1, e a<sup>b</sup>⋅b<sup>a</sup> = c<sup>b</sup>⋅b<sup>c</sup> = a<sup>c</sup>⋅c<sup>a</sup>, prove que: [a(b+c-a)]/log a = [b(a+c-b)]/log b = [c(a+b-c)]/log c.</p>
+                <p class="exercise-item"><strong>204.</strong> Se 0 < x ≠ 1, demonstre que: 1/(log<sub>x</sub>2 ⋅ log<sub>x</sub>4) + 1/(log<sub>x</sub>4 ⋅ log<sub>x</sub>8) + ... + 1/(log<sub>x</sub>2<sup>n-1</sup> ⋅ log<sub>x</sub>2<sup>n</sup>) = (1 - 1/n) ⋅ 1/(log<sub>x</sub>²2).</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 150-151 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap3_leitura_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Leitura: Lagrange: A Grande Pirâmide da Matemática</h2>
+            <p>Joseph-Louis Lagrange (1736-1813), nascido em Turim, foi um matemático de ascendência francesa e italiana. Apesar de uma inclinação inicial para línguas clássicas e Física, a Matemática tornou-se sua paixão, levando-o a ser professor aos 18 anos. Em 1766, sucedeu Euler na Academia de Berlim, onde permaneceu por 20 anos.</p>
+            <p>Sua obra "Mecânica Analítica" (1788) é um marco, tratando a mecânica como uma geometria em quatro dimensões, sem o uso de diagramas. Lagrange também contribuiu para a Álgebra, Teoria dos Números e Análise, onde tentou fundamentar o conceito de derivada de forma algébrica, introduzindo a notação f'(x).</p>
+            <p>Apesar de um período de esgotamento nervoso, a Revolução Francesa reacendeu seu interesse pela Matemática. Napoleão o nomeou senador e conde, referindo-se a ele como "a grande pirâmide da Matemática".</p>
+            <div class="img-placeholder">Retrato de Joseph-Louis Lagrange (Ver p. 78 do livro)</div>
+        </div>
+
+       <div id="cap4_item1_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo IV: Função Logarítmica</h2>
+            <h3 class="text-xl font-medium mb-2">I. Definição</h3>
+            <p><strong>58.</strong> Dado um número real <span class="math-symbol">a</span> (<span class="math-symbol">0 < a ≠ 1</span>), chamamos função logarítmica de base <span class="math-symbol">a</span> a função <span class="math-symbol">f</span> de ℝ<sub>+</sub><sup>*</sup> em ℝ que associa a cada <span class="math-symbol">x</span> o número log<sub>a</sub>x.</p>
+            <p>Em símbolos: <span class="math-symbol">f</span>: ℝ<sub>+</sub><sup>*</sup> → ℝ, <span class="math-symbol">x</span> → log<sub>a</sub>x.</p>
+            <p>Exemplos de funções logarítmicas em ℝ<sub>+</sub><sup>*</sup>:</p>
+            <ul class="list-disc list-inside ml-4">
+                <li>a) f(x) = log<sub>2</sub>x</li>
+                <li>b) g(x) = log<sub>1/2</sub>x</li>
+                <li>c) h(x) = log x (logaritmo decimal)</li>
+                <li>d) p(x) = ln x (logaritmo neperiano)</li>
+            </ul>
+        </div>
+
+        <div id="cap4_item2_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo IV: Função Logarítmica</h2>
+            <h3 class="text-xl font-medium mb-2">II. Propriedades</h3>
+            <p>1) Se <span class="math-symbol">0 < a ≠ 1</span>, então as funções <span class="math-symbol">f</span> de ℝ<sub>+</sub><sup>*</sup> em ℝ, definida por <span class="math-symbol">f(x) = log<sub>a</sub>x</span>, e <span class="math-symbol">g</span> de ℝ em ℝ<sub>+</sub><sup>*</sup>, definida por <span class="math-symbol">g(x) = a<sup>x</sup></span>, são inversas uma da outra.</p>
+            <p>Demonstração: (f ∘ g)(x) = f(g(x)) = log<sub>a</sub>(g(x)) = log<sub>a</sub>(a<sup>x</sup>) = x. E (g ∘ f)(x) = g(f(x)) = a<sup>f(x)</sup> = a<sup>log<sub>a</sub>x</sup> = x.</p>
+            <p>2) A função logarítmica <span class="math-symbol">f(x) = log<sub>a</sub>x</span> é crescente (decrescente) se, e somente se, <span class="math-symbol">a > 1</span> (<span class="math-symbol">0 < a < 1</span>).</p>
+            <p><strong>59. Observações:</strong></p>
+            <ol class="list-decimal list-inside ml-4">
+                <li>Quando a base é maior que 1, a relação de desigualdade entre os logaritmos tem o mesmo sentido que a relação entre os logaritmandos.</li>
+                <li>Quando a base é positiva e menor que 1, a relação de desigualdade entre os logaritmos é de sentido contrário à que existe entre os logaritmandos.</li>
+                <li>Se a base é maior que 1, números positivos menores que 1 têm logaritmos negativos, e números maiores que 1 têm logaritmos positivos.</li>
+                <li>Se a base é positiva e menor que 1, números positivos menores que 1 têm logaritmos positivos, e números maiores que 1 têm logaritmos negativos.</li>
+            </ol>
+        </div>
+
+        <div id="cap4_item3_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo IV: Função Logarítmica</h2>
+            <h3 class="text-xl font-medium mb-2">III. Imagem</h3>
+            <p>Se <span class="math-symbol">0 < a ≠ 1</span>, então a função <span class="math-symbol">f</span> de ℝ<sub>+</sub><sup>*</sup> em ℝ definida por <span class="math-symbol">f(x) = log<sub>a</sub>x</span> admite a função inversa <span class="math-symbol">g</span> de ℝ em ℝ<sub>+</sub><sup>*</sup> definida por <span class="math-symbol">g(x) = a<sup>x</sup></span>. Logo, <span class="math-symbol">f</span> é bijetora e, portanto, a imagem de <span class="math-symbol">f</span> é: Im = ℝ.</p>
+        </div>
+        
+        <div id="cap4_item4_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo IV: Função Logarítmica</h2>
+            <h3 class="text-xl font-medium mb-2">IV. Gráfico</h3>
+            <p>Com relação ao gráfico cartesiano da função <span class="math-symbol">f(x) = log<sub>a</sub>x</span> (<span class="math-symbol">0 < a ≠ 1</span>), podemos dizer:</p>
+            <ol class="list-decimal list-inside ml-4">
+                <li>está todo à direita do eixo y (x > 0);</li>
+                <li>corta o eixo x no ponto de abscissa 1 (log<sub>a</sub>1 = 0);</li>
+                <li>se <span class="math-symbol">a > 1</span> é de uma função crescente e se <span class="math-symbol">0 < a < 1</span> é de uma função decrescente;</li>
+                <li>é simétrico em relação à reta y = x (bissetriz dos quadrantes ímpares) do gráfico da função g(x) = a<sup>x</sup>;</li>
+                <li>toma um dos aspectos da figura abaixo.</li>
+            </ol>
+            <div class="flex flex-col md:flex-row justify-around items-center">
+                <div class="img-placeholder">Gráfico de f(x) = log<sub>a</sub>x (a > 1)<br>(Ver p. 83 do livro)</div>
+                <div class="img-placeholder">Gráfico de f(x) = log<sub>a</sub>x (0 < a < 1)<br>(Ver p. 83 do livro)</div>
+            </div>
+            <p><strong>60. Exemplos:</strong></p>
+            <p>1º) Construir o gráfico cartesiano da função <span class="math-symbol">f(x) = log<sub>2</sub>x</span> (x > 0).</p>
+            <div class="img-placeholder">Gráfico de f(x) = log<sub>2</sub>x (Ver p. 84 do livro)</div>
+            <p>2º) Construir o gráfico cartesiano da função <span class="math-symbol">f(x) = log<sub>1/2</sub>x</span> (x > 0).</p>
+            <div class="img-placeholder">Gráfico de f(x) = log<sub>1/2</sub>x (Ver p. 85 do livro)</div>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>205.</strong> Assinale em cada proposição V (verdadeira) ou F (falsa): a) log<sub>2</sub>3 > log<sub>2</sub>0,2 ... (até j)</p>
+                <p class="exercise-item"><strong>206.</strong> Sendo y = e<sup>x</sup> para x pertencente a ℝ, expresse sua função inversa.</p>
+                <p class="exercise-item"><strong>207.</strong> Se f(x) = log<sub>e</sub>(1/x), calcule o valor de f(e³).</p>
+                <p class="exercise-item"><strong>208.</strong> Seja f a função que a cada quadrado perfeito associa seu logaritmo na base 2. Se f(x²) = 2, determine o valor de x.</p>
+                <p class="exercise-item"><strong>209.</strong> Construa os gráficos das funções: a) f(x) = log<sub>3</sub>x b) f(x) = log<sub>1/3</sub>x c) f(x) = log x d) f(x) = log<sub>1/10</sub>x</p>
+                <p class="exercise-item"><strong>210.</strong> Construa os gráficos das funções: a) f(x) = log<sub>2</sub>|x| b) f(x) = |log<sub>2</sub>x| c) f(x) = |log<sub>2</sub>|x||</p>
+                <p class="exercise-item"><strong>211.</strong> Represente graficamente a função f definida por f(x) = ln|x|.</p>
+                <p class="exercise-item"><strong>212.</strong> Construa os gráficos das funções: a) f(x) = log<sub>2</sub>(x-1) b) f(x) = log<sub>3</sub>(2x-1) c) f(x) = log<sub>2</sub>x² d) f(x) = log<sub>2</sub>√x</p>
+                <p class="exercise-item"><strong>213.</strong> Construa os gráficos das funções: a) f(x) = 2 + log<sub>2</sub>x b) f(x) = 1 + log<sub>1/2</sub>x</p>
+                <p class="exercise-item"><strong>214.</strong> Represente graficamente a função f definida por f(x) = { 0, se |x| < 1 ; √[log<sub>a</sub>|x|], se |x| ≥ 1 e a > 1 }</p>
+                <p class="exercise-item"><strong>215.</strong> Represente graficamente a função f: ℝ - {2} → ℝ definida por f(x) = |log<sub>2</sub>|x-2||.</p>
+                <p class="exercise-item"><strong>216.</strong> Determine o número de pontos comuns aos gráficos das funções definidas por y = e<sup>x</sup> e y = -log|x|, x ≠ 0.</p>
+                <p class="exercise-item"><strong>217.</strong> Determine o domínio da função f(x) = log<sub>3</sub>(x² - 4).</p>
+                <p class="exercise-item"><strong>218.</strong> Determine o domínio das funções: a) f(x) = log<sub>2</sub>(1 - 2x) b) f(x) = log<sub>3</sub>(4x - 3)² c) f(x) = log<sub>5</sub>[(x+1)/(1-x)] d) f(x) = log(x² + x - 12)</p>
+                <p class="exercise-item"><strong>219.</strong> Determine o conjunto do domínio da função definida por log(x² - 6x + 9).</p>
+                <p class="exercise-item"><strong>220.</strong> Determine os valores de K para que o domínio da função f dada por f(x) = log(x² + Kx + K) seja o conjunto dos números reais.</p>
+                <p class="exercise-item"><strong>221.</strong> Determine o domínio da função f(x) = log<sub>(x+1)</sub>(2x² - 5x + 2).</p>
+                <p class="exercise-item"><strong>222.</strong> Determine o domínio das funções: a) f(x) = log<sub>(3-x)</sub>(x+2) b) f(x) = log<sub>x</sub>(x² + x - 2) c) f(x) = log<sub>(2x-3)</sub>(3 + 2x - x²)</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 151-153 e 156 do livro.</em></p>
+            </div>
+        </div>
+        
+        <div id="cap5_item1_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo V: Equações Exponenciais e Logarítmicas</h2>
+            <h3 class="text-xl font-medium mb-2">I. Equações Exponenciais</h3>
+            <p><strong>61.</strong> Abordaremos agora as equações exponenciais que não podem ser reduzidas a uma igualdade de potências de mesma base pela simples aplicação das propriedades das potências.</p>
+            <p>A resolução de uma equação desse tipo baseia-se na definição de logaritmo, isto é, se <span class="math-symbol">0 < a ≠ 1</span> e <span class="math-symbol">b > 0</span>, tem-se:</p>
+            <p><code class="text-lg">a<sup>x</sup> = b ⇔ x = log<sub>a</sub>b</code></p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>223.</strong> Resolva as equações: a) 2<sup>x</sup> = 3 b) 5<sup>2x-3</sup> = 3</p>
+                <p class="exercise-item"><strong>224.</strong> Resolva as equações: a) 5<sup>x</sup> = 4 b) 3<sup>x</sup> = 1/2 c) 7<sup>√x</sup> = 2 d) 3<sup>(x²)</sup> = 5 e) 5<sup>4x-3</sup> = 0,5 f) 3<sup>2x+1</sup> = 2 g) 7<sup>2-3x</sup> = 5</p>
+                <p class="exercise-item"><strong>225.</strong> Resolva a equação a<sup>x</sup> = b, com a > 1 e b > 1.</p>
+                <p class="exercise-item"><strong>226.</strong> O crescimento de certa cultura de bactérias obedece à função X(t) = Ce<sup>kt</sup>, ... (problema completo na p.89)</p>
+                <p class="exercise-item"><strong>227.</strong> Uma substância radioativa está em processo de decaimento, de modo que no instante t a quantidade não decaída A(t) = A(0)e<sup>-3t</sup>, ... Calcule o tempo necessário para que a metade da quantidade inicial se decaia.</p>
+                <p class="exercise-item"><strong>228.</strong> A lei de decaimento do rádio no tempo t ≥ 0 é dada por M(t) = Ce<sup>-kt</sup>, ... Se a metade da quantidade primitiva M(0) decai em 1600 anos, qual a quantidade perdida em 100 anos?</p>
+                <p class="exercise-item"><strong>229.</strong> Resolva a equação 2<sup>3x-2</sup> = 3<sup>2x+1</sup>.</p>
+                <p class="exercise-item"><strong>230.</strong> Resolva as equações: a) 2<sup>x</sup> = 3<sup>x+2</sup> b) 7<sup>2x-1</sup> = 3<sup>3x+4</sup> c) 5<sup>x-1</sup> = 3<sup>4-2x</sup></p>
+                <p class="exercise-item"><strong>231.</strong> Resolva as equações: a) 3<sup>x</sup> = 2<sup>x</sup> + 2<sup>x+1</sup> b) 5<sup>x</sup> + 5<sup>x+1</sup> = 3<sup>x</sup> + 3<sup>x+1</sup> + 3<sup>x+2</sup> c) 2<sup>x+1</sup> - 2<sup>x</sup> = 3<sup>x+2</sup> - 3<sup>x</sup></p>
+                <p class="exercise-item"><strong>232.</strong> Resolva a equação 2<sup>3x+2</sup> ⋅ 3<sup>2x-1</sup> = 8.</p>
+                <p class="exercise-item"><strong>233.</strong> Resolva as equações: a) 4<sup>x</sup> - 5 ⋅ 2<sup>x</sup> + 6 = 0 ... (até f)</p>
+                <p class="exercise-item"><strong>234.</strong> Resolva a equação 4<sup>x</sup> + 6<sup>x</sup> = 9<sup>x</sup>.</p>
+                <p class="exercise-item"><strong>235.</strong> Resolva a equação 4<sup>x</sup> = 2 ⋅ 14<sup>x</sup> + 3 ⋅ 49<sup>x</sup>.</p>
+                <p class="exercise-item"><strong>236.</strong> Resolva a equação a<sup>4x</sup> + a<sup>2x</sup> = 1 supondo 0 < a ≠ 1.</p>
+                <p class="exercise-item"><strong>237.</strong> Resolva o sistema de equações: { 64<sup>2x</sup> + 64<sup>2y</sup> = 40 ; 64<sup>x+y</sup> = 12 }</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 153-154 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap5_item2_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo V: Equações Exponenciais e Logarítmicas</h2>
+            <h3 class="text-xl font-medium mb-2">II. Equações Logarítmicas</h3>
+            <p>Podemos classificar as equações logarítmicas em três tipos:</p>
+            <p><strong>62. 1º tipo: log<sub>a</sub>f(x) = log<sub>a</sub>g(x)</strong></p>
+            <p>Resolução baseada na propriedade: log<sub>a</sub>f(x) = log<sub>a</sub>g(x) ⇒ f(x) = g(x) > 0 (para 0 < a ≠ 1).</p>
+            <p><strong>64. 2º tipo: log<sub>a</sub>f(x) = α</strong></p>
+            <p>Resolução aplicando a definição: log<sub>a</sub>f(x) = α ⇒ f(x) = a<sup>α</sup> (para 0 < a ≠ 1, α ∈ ℝ). A condição f(x) > 0 é automaticamente satisfeita.</p>
+            <p><strong>66. 3º tipo: Incógnita auxiliar</strong></p>
+            <p>Equações resolvidas fazendo uma mudança de incógnita.</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>238.</strong> Resolva as equações: a) log<sub>4</sub>(3x + 2) = log<sub>4</sub>(2x + 5) ... (até f)</p>
+                <p class="exercise-item"><strong>239.</strong> Resolva as equações: a) log<sub>5</sub>(4x - 3) = 1 ... (até g)</p>
+                <p class="exercise-item"><strong>240.</strong> Aumentando um número x em 16 unidades, seu logaritmo na base 3 aumenta em 2 unidades. Determine x.</p>
+                <p class="exercise-item"><strong>241.</strong> Determine o valor de x para que [log<sub>1/2</sub>x] ⋅ [log<sub>1/8</sub>(1/32)] = 5/3.</p>
+                <p class="exercise-item"><strong>242.</strong> Resolva as equações: a) log<sub>3</sub>(log<sub>2</sub>x) = 1 ... (até g)</p>
+                <p class="exercise-item"><strong>243.</strong> Resolva a equação: log<sub>3</sub>[log<sub>2</sub>(3x² - 5x + 2)] = log<sub>3</sub>2.</p>
+                <p class="exercise-item"><strong>244.</strong> Resolva as equações: a) x<sup>log<sub>x</sub>(x+3)</sup> = 7 ... (até d)</p>
+                <p class="exercise-item"><strong>245.</strong> Resolva o sistema de equações: { 2xy - x - y = 1 ; log<sub>2</sub>y = √x }</p>
+                <p class="exercise-item"><strong>246.</strong> Resolva as equações: a) log<sub>4</sub>²x - 2log<sub>4</sub>x - 3 = 0 ... (até f)</p>
+                <p class="exercise-item"><strong>247.</strong> Determine a solução real da equação x<sup>√3</sup> - 2x<sup>-√3</sup> = 2.</p>
+                <p class="exercise-item"><strong>248.</strong> Resolva as equações: a) 1/(5 - log x) + 2/(1 + log x) = 1 ... (até e)</p>
+                <p class="exercise-item"><strong>249.</strong> Resolva a equação log<sub>x</sub>(2x + 3) = 2.</p>
+                <p class="exercise-item"><strong>250.</strong> Resolva as equações: a) log<sub>x</sub>(3x² - 13x + 15) = 2 ... (até g)</p>
+                <p class="exercise-item"><strong>251.</strong> Resolva a equação log<sub>(x+1)</sub>(x² + x + 6) = 3.</p>
+                <p class="exercise-item"><strong>252.</strong> Resolva a equação log<sub>(x+3)</sub>(5x² - 7x - 9) = log<sub>(x+3)</sub>(x² - 2x - 3).</p>
+                <p class="exercise-item"><strong>253.</strong> Resolva as equações: a) log<sub>x</sub>(4x - 3) = log<sub>x</sub>(2x + 1) ... (até f)</p>
+                <p class="exercise-item"><strong>254.</strong> Resolva as equações: a) log<sub>x</sub>²(5x - 6) - 3log<sub>x</sub>(5x - 6) + 2 = 0 ... (até c)</p>
+                <p class="exercise-item"><strong>255.</strong> Resolva as equações: a) log<sub>2</sub>(x + 1) + log<sub>2</sub>(x - 1) = 3 b) log<sub>3</sub>(2x - 1)² - log<sub>3</sub>(x - 1)² = 2</p>
+                <p class="exercise-item"><strong>256.</strong> Determine as raízes da equação log(x + 1/3) + log(x - 1/3) = log(24/9).</p>
+                <p class="exercise-item"><strong>257.</strong> Determine a solução real da equação log 2x + log(1 + 2x) = log 6.</p>
+                <p class="exercise-item"><strong>258.</strong> Determine a raiz real da equação x + log(1 + 2<sup>x</sup>) = x ⋅ log 5 + log 6.</p>
+                <p class="exercise-item"><strong>259.</strong> Resolva as equações: a) log<sub>2</sub>(x - 3) + log<sub>2</sub>(x + 3) = 4 ... (até g)</p>
+                <p class="exercise-item"><strong>260.</strong> Resolva a equação (0,4)<sup>log²x+1</sup> = (6,25)<sup>2-log x³</sup>.</p>
+                <p class="exercise-item"><strong>261.</strong> Resolva a equação log<sub>2</sub>(9<sup>x-1</sup> + 7) - log<sub>2</sub>(3<sup>x-1</sup> + 1) = 2.</p>
+                <p class="exercise-item"><strong>262.</strong> Resolva as equações: a) log<sub>3</sub>(2x) / log<sub>3</sub>(4x - 15) = 2 ... (até c)</p>
+                <p class="exercise-item"><strong>263.</strong> Resolva a equação (1/2)log<sub>3</sub>(x - 16) - log<sub>3</sub>(√x - 4) = 1.</p>
+                <p class="exercise-item"><strong>264.</strong> Resolva a equação log<sub>3</sub>(4<sup>x</sup> + 15 ⋅ 2<sup>x</sup> + 27) = 2 ⋅ log<sub>3</sub>(2<sup>x+2</sup> - 3).</p>
+                <p class="exercise-item"><strong>265.</strong> Resolva a equação log<sub>2</sub>(x - 2) + log<sub>2</sub>(3x - 2) = log<sub>2</sub>7.</p>
+                <p class="exercise-item"><strong>266.</strong> Resolva as equações: a) log<sub>2</sub>(x + 4) + log<sub>2</sub>(x - 3) = log<sub>2</sub>18 ... (até g)</p>
+                <p class="exercise-item"><strong>267.</strong> Resolva a equação 2 ⋅ log(log x) = log(7 - 2 ⋅ log x) - log 5.</p>
+                <p class="exercise-item"><strong>268.</strong> Resolva a equação log√(7x + 5) + (1/2)log(2x + 7) = 1 + log(9/2).</p>
+                <p class="exercise-item"><strong>269.</strong> Resolva as equações: a) √log x = log√x ... (até c)</p>
+                <p class="exercise-item"><strong>270.</strong> Resolva a equação log<sub>3</sub>(3<sup>x</sup> - 1) ⋅ log<sub>3</sub>(3<sup>x+1</sup> - 3) = 6.</p>
+                <p class="exercise-item"><strong>271.</strong> Resolva as equações: a) log<sub>2</sub>x³ - 20log√x + 1 = 0 ... (até c)</p>
+                <p class="exercise-item"><strong>272.</strong> Resolva a equação x² + x ⋅ log 5 - log 2 = 0.</p>
+                <p class="exercise-item"><strong>273.</strong> Resolva o sistema de equações: { x + y = 7 ; log<sub>2</sub>x + log<sub>2</sub>y = log<sub>2</sub>12 }</p>
+                <p class="exercise-item"><strong>274.</strong> Resolva os seguintes sistemas de equações: a) { x + y = 6 ; log<sub>2</sub>x + log<sub>2</sub>y = log<sub>2</sub>8 } ... (até e)</p>
+                <p class="exercise-item"><strong>275.</strong> Resolva o sistema de equações: { 2<sup>log<sub>1/2</sub>(x+y)</sup> = 5<sup>log<sub>5</sub>(x-y)</sup> ; log<sub>2</sub>x + log<sub>2</sub>y = 1/2 }</p>
+                <p class="exercise-item"><strong>276.</strong> Resolva o sistema de equações: { log<sub>3</sub>x + log<sub>3</sub>y = 3 ; log<sub>3</sub>x + colog<sub>3</sub>y = 1 }</p>
+                <p class="exercise-item"><strong>277.</strong> Resolva os seguintes sistemas de equações: a) { 3log x - 2log y = 0 ; 4log x + 3log y = 17 } ... (até b)</p>
+                <p class="exercise-item"><strong>278.</strong> Resolva os sistemas de equações: { log<sub>2</sub>(xy) ⋅ log<sub>2</sub>(x/y) = -3 ; log<sub>2</sub>²x + log<sub>2</sub>²y = 5 }</p>
+                <p class="exercise-item"><strong>279.</strong> Resolva a equação 4 ⋅ x<sup>log<sub>2</sub>x</sup> = x³.</p>
+                <p class="exercise-item"><strong>280.</strong> Resolva os seguintes sistemas de equações: a) 9 ⋅ x<sup>log<sub>3</sub>x</sup> = x³ ... (até e)</p>
+                <p class="exercise-item"><strong>281.</strong> Resolva a equação 2<sup>log<sub>x</sub>(x²-6x+9)</sup> = 32 ⋅ log<sub>x</sub>√(x-1).</p>
+                <p class="exercise-item"><strong>282.</strong> Resolva as equações: a) log(x<sup>log x</sup>) = 1 ... (até c)</p>
+                <p class="exercise-item"><strong>283.</strong> Resolva as equações: a) x<sup>(3log³x - (2/3)log x)</sup> = 100 ³√10 ... (até c)</p>
+                <p class="exercise-item"><strong>284.</strong> Resolva a equação log<sub>x</sub>(2 ⋅ x<sup>x-2</sup> - 1) = 2x - 4.</p>
+                <p class="exercise-item"><strong>285.</strong> Resolva a equação 3 + log<sub>x</sub>[(x<sup>4x-6</sup> + 1)/2] = 2x.</p>
+                <p class="exercise-item"><strong>286.</strong> Resolva os sistemas de equações: a) { x ⋅ y = 16 ; log<sub>2</sub>x = 2 + log<sub>2</sub>y } ... (até c)</p>
+                <p class="exercise-item"><strong>287.</strong> Resolva a equação log<sub>2</sub>(x - 2) = log<sub>2</sub>(x² - x + 6) + log<sub>1/2</sub>(2x + 1).</p>
+                <p class="exercise-item"><strong>288.</strong> Resolva as equações: a) log<sub>3</sub>(x + 2) - log<sub>1/3</sub>(x - 6) = log<sub>3</sub>(2x - 5) ... (até c)</p>
+                <p class="exercise-item"><strong>289.</strong> Resolva a equação log<sub>2</sub>²x - 9log<sub>8</sub>x = 4.</p>
+                <p class="exercise-item"><strong>290.</strong> Resolva as equações: a) log<sub>3</sub>²x - 5log<sub>9</sub>x + 1 = 0 ... (até c)</p>
+                <p class="exercise-item"><strong>291.</strong> Resolva as equações: a) √[log<sub>2</sub>x<sup>4</sup>] + 4log<sub>4</sub>√(x/2) = 2 ... (até b)</p>
+                <p class="exercise-item"><strong>292.</strong> Resolva a equação: [1 + log<sub>2</sub>(x - 4)] / [log<sub>√2</sub>(√[x+3] - √[x-3])] = 1.</p>
+                <p class="exercise-item"><strong>293.</strong> Resolva os sistemas de equações: a) { log<sub>1/2</sub>(y - x) + log<sub>2</sub>(1/y) = -2 ; x² + y² = 25 } ... (até e)</p>
+                <p class="exercise-item"><strong>294.</strong> Resolva a equação log<sub>2</sub>x + log<sub>x</sub>2 = 2.</p>
+                <p class="exercise-item"><strong>295.</strong> Determine o conjunto solução da equação log<sub>4</sub>(x - 3) - log<sub>16</sub>(x - 3) = 1, em que x > 3.</p>
+                <p class="exercise-item"><strong>296.</strong> Sejam a e b dois números reais, a > 0 e b > 0, a ≠ 1, b ≠ 1. Que relação devem satisfazer a e b para que a equação x² - x(log<sub>b</sub>a) + 2log<sub>a</sub>b = 0 tenha duas raízes reais e iguais?</p>
+                <p class="exercise-item"><strong>297.</strong> Determine o valor de x, sabendo que log<sub>2</sub>x = log<sub>√x</sub>x² + log<sub>x</sub>2.</p>
+                <p class="exercise-item"><strong>298.</strong> Determine o valor de x, sabendo que log<sub>a</sub>²x + log<sub>x</sub>²a = 1, a > 0, a ≠ 1, x ≠ 1.</p>
+                <p class="exercise-item"><strong>299.</strong> Resolva a equação log<sub>x</sub>(x + 1) = log<sub>(x+1)</sub>x, em que x é um número real.</p>
+                <p class="exercise-item"><strong>300.</strong> Resolva as equações: a) log<sub>2</sub>x = log<sub>x</sub>2 ... (até d)</p>
+                <p class="exercise-item"><strong>301.</strong> Resolva as equações: a) log<sub>√5</sub>x ⋅ log<sub>x</sub>5√5 + log<sub>√5</sub>5√5 = -√6 ... (até b)</p>
+                <p class="exercise-item"><strong>302.</strong> Resolva a equação 1 + 2log<sub>x</sub>2 ⋅ log<sub>4</sub>(10 - x) = 2/log<sub>4</sub>x.</p>
+                <p class="exercise-item"><strong>303.</strong> Resolva os sistemas de equações: a) { log<sub>y</sub>x + log<sub>x</sub>y = 5/2 ; xy = 8 } ... (até b)</p>
+                <p class="exercise-item"><strong>304.</strong> Resolva a equação 1/log<sub>6</sub>(x + 3) + [2log<sub>0,25</sub>(4 - x)] / log<sub>2</sub>(3 + x) = 1.</p>
+                <p class="exercise-item"><strong>305.</strong> Resolva a equação log<sub>x</sub>2 ⋅ log<sub>x/16</sub>2 = log<sub>x/64</sub>2.</p>
+                <p class="exercise-item"><strong>306.</strong> Resolva as equações: a) log<sub>x</sub>3 ⋅ log<sub>x/3</sub>3 + log<sub>x/81</sub>3 = 0 ... (até d)</p>
+                <p class="exercise-item"><strong>307.</strong> Resolva a equação log<sub>1/√(1+x)</sub>10 ⋅ log<sub>10</sub>(x² - 3x + 2) = -2 + log<sub>1/√(1+x)</sub>10 ⋅ log<sub>10</sub>(x - 3).</p>
+                <p class="exercise-item"><strong>308.</strong> Resolva a equação x<sup>log²x - log x² - 2</sup> + (x + 2)<sup>log<sub>(x+2)</sub>²4</sup> = 3.</p>
+                <p class="exercise-item"><strong>309.</strong> Resolva as equações, sabendo que 0 < a ≠ 1: a) log<sub>a</sub>(ax) ⋅ log<sub>x</sub>(ax) = log<sub>a</sub>²(1/a) ... (até d)</p>
+                <p class="exercise-item"><strong>310.</strong> Resolva a equação, sabendo que a e b são reais positivos e diferentes de 1: (log<sub>2</sub>x)/(log<sub>2</sub>²a) - (2log<sub>a</sub>x)/(log<sub>1/b</sub>a) = log<sub>³√a</sub>x ⋅ log<sub>a</sub>x.</p>
+                <p class="exercise-item"><strong>311.</strong> Resolva a equação log<sub>2</sub>x + log<sub>3</sub>x + log<sub>4</sub>x = 1.</p>
+                <p class="exercise-item"><strong>312.</strong> Resolva a equação, sabendo que 0 < a ≠ 1: 10<sup>log<sub>a</sub>(x²-3x+5)</sup> = 3<sup>log<sub>a</sub>10</sup>.</p>
+                <p class="exercise-item"><strong>313.</strong> Resolva a equação: [1 + log(a-x)/log(x+b)] = [2 - log<sub>(a-b)</sub>4] / log<sub>(a-b)</sub>(x+b), sabendo que a > b > 0 e a - b ≠ 1.</p>
+                <p class="exercise-item"><strong>314.</strong> Resolva os sistemas de equações: a) { x² + 4y³ = 96 ; log<sub>y</sub>2 = log<sub>xy</sub>4 } ... (até c)</p>
+                <p class="exercise-item"><strong>315.</strong> Resolva o sistema: { log<sub>2</sub>(x + y) - log<sub>3</sub>(x - y) = 1 ; x² - y² = 2 }</p>
+                <p class="exercise-item"><strong>316.</strong> Resolva o sistema: { log<sub>2</sub>x + log<sub>4</sub>y + log<sub>4</sub>z = 2 ; log<sub>3</sub>y + log<sub>9</sub>z + log<sub>9</sub>x = 2 ; log<sub>4</sub>z + log<sub>16</sub>x + log<sub>16</sub>y = 2 }</p>
+                <p class="exercise-item"><strong>317.</strong> Sendo a e b reais positivos e diferentes de 1, resolva o sistema: { a<sup>x</sup> ⋅ b<sup>y</sup> = ab ; 2log<sub>a</sub>x = log<sub>1/b</sub>y ⋅ log<sub>√a</sub>b }</p>
+                <p class="exercise-item"><strong>318.</strong> Resolva o sistema de equações: { log<sub>12</sub>x ⋅ (log<sub>2</sub>x + log<sub>2</sub>y) = log<sub>2</sub>x ; log<sub>2</sub>x ⋅ log<sub>3</sub>(x + y) = 3log<sub>3</sub>x }</p>
+                <p class="exercise-item"><strong>319.</strong> Resolva os sistemas de equações para x > 0 e y > 0: a) { x<sup>x+y</sup> = y<sup>12</sup> ; y<sup>x+y</sup> = x³ } ... (até c)</p>
+                <p class="exercise-item"><strong>320.</strong> Resolva os sistemas de equações: a) { x<sup>log y</sup> + y<sup>log x</sup> = 200 ; √x<sup>log y</sup> ⋅ y<sup>log x</sup> = y } ... (até c)</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 154-156 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap5_leitura_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Leitura: Gauss: O Universalista por Excelência</h2>
+            <p>Carl Friedrich Gauss (1777-1855), matemático alemão, foi uma criança prodígio. Aos 10 anos, somou os inteiros de 1 a 100 rapidamente. Com o apoio do Duque de Brunswick, estudou em Göttingen. Aos 19 anos, provou a construtibilidade do polígono regular de 17 lados com régua e compasso, decidindo-se pela Matemática.</p>
+            <p>Sua tese de doutoramento demonstrou o Teorema Fundamental da Álgebra. Sua obra-prima, "Disquisitiones Arithmeticae" (1801), é um marco na Teoria dos Números, tratando de congruências, restos quadráticos e equações binômias.</p>
+            <p>Gauss também se destacou na Astronomia, calculando a órbita do planeta Ceres. Foi nomeado professor de Astronomia e diretor do observatório de Göttingen. Publicava pouco, mas seu diário revelou a amplitude de suas descobertas, incluindo a geometria não euclidiana hiperbólica. Seu lema era "pauca sed matura" (poucos, porém maduros).</p>
+             <div class="img-placeholder">Retrato de Carl Friedrich Gauss (Ver p. 110 do livro)</div>
+        </div>
+        
+        <div id="cap6_item1_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo VI: Inequações Exponenciais e Logarítmicas</h2>
+            <h3 class="text-xl font-medium mb-2">I. Inequações Exponenciais</h3>
+            <p><strong>68.</strong> Abordaremos as inequações exponenciais que não podem ser reduzidas a uma desigualdade de potências de mesma base por meio de simples aplicações das propriedades de potências.</p>
+            <p>A resolução de uma inequação desse tipo baseia-se no crescimento ou decrescimento da função logarítmica, isto é, se <span class="math-symbol">a<sup>x</sup> > 0, b > 0</span> e <span class="math-symbol">0 < c ≠ 1</span>, tem-se:</p>
+            <p>(1) <span class="math-symbol">a<sup>x</sup> > b ⇔ </span> { log<sub>c</sub>a<sup>x</sup> > log<sub>c</sub>b, se c > 1 ; log<sub>c</sub>a<sup>x</sup> < log<sub>c</sub>b, se 0 < c < 1 }</p>
+            <p>(2) <span class="math-symbol">a<sup>x</sup> < b ⇔ </span> { log<sub>c</sub>a<sup>x</sup> < log<sub>c</sub>b, se c > 1 ; log<sub>c</sub>a<sup>x</sup> > log<sub>c</sub>b, se 0 < c < 1 }</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>321.</strong> Resolva as inequações: a) 3<sup>x</sup> > 2 b) 2<sup>3x-1</sup> ≤ 1/5</p>
+                <p class="exercise-item"><strong>322.</strong> Resolva as inequações: a) 4<sup>x</sup> > 7 ... (até g)</p>
+                <p class="exercise-item"><strong>323.</strong> Resolva a inequação 3<sup>2x-1</sup> > 2<sup>3x+1</sup>.</p>
+                <p class="exercise-item"><strong>324.</strong> Resolva as inequações: a) 2<sup>x</sup> > 3<sup>x-1</sup> ... (até d)</p>
+                <p class="exercise-item"><strong>325.</strong> Resolva as inequações: a) 5<sup>x</sup> > 3<sup>x</sup> + 3<sup>x+1</sup> ... (até e)</p>
+                <p class="exercise-item"><strong>326.</strong> Resolva as inequações: a) 2<sup>3x+1</sup> ⋅ 5<sup>2x-3</sup> > 6 b) 3<sup>2x-1</sup> ⋅ 2<sup>5-4x</sup> > 5</p>
+                <p class="exercise-item"><strong>327.</strong> Resolva as inequações: a) 9<sup>x</sup> - 5 ⋅ 3<sup>x</sup> + 6 > 0 ... (até f)</p>
+                <p class="exercise-item"><strong>328.</strong> Resolva a inequação 9<sup>x</sup> - 6<sup>x</sup> - 4<sup>x</sup> > 0.</p>
+                <p class="exercise-item"><strong>329.</strong> Resolva a inequação 4<sup>x</sup> - 6 ⋅ 10<sup>x</sup> + 8 ⋅ 25<sup>x</sup> ≤ 0.</p>
+                <p class="exercise-item"><strong>330.</strong> Resolva a inequação 4<sup>x+1</sup> - 8 ⋅ 6<sup>x</sup> + 9<sup>x+1/2</sup> ≥ 0.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 156-157 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap6_item2_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo VI: Inequações Exponenciais e Logarítmicas</h2>
+            <h3 class="text-xl font-medium mb-2">II. Inequações Logarítmicas</h3>
+            <p>Classificamos as inequações logarítmicas em três tipos básicos:</p>
+            <p><strong>69. 1º tipo: log<sub>a</sub>f(x) > log<sub>a</sub>g(x)</strong></p>
+            <p>Se a > 1, então log<sub>a</sub>f(x) > log<sub>a</sub>g(x) ⇔ f(x) > g(x) > 0.</p>
+            <p>Se 0 < a < 1, então log<sub>a</sub>f(x) > log<sub>a</sub>g(x) ⇔ 0 < f(x) < g(x).</p>
+            <p><strong>71. 2º tipo: log<sub>a</sub>f(x) > k</strong></p>
+            <p>Transforma-se k em log<sub>a</sub>a<sup>k</sup> e recai-se no 1º tipo.</p>
+            <p>Se a > 1, então log<sub>a</sub>f(x) > k ⇔ f(x) > a<sup>k</sup>.</p>
+            <p>Se 0 < a < 1, então log<sub>a</sub>f(x) > k ⇔ 0 < f(x) < a<sup>k</sup>.</p>
+            <p><strong>73. 3º tipo: Incógnita auxiliar</strong></p>
+            <p>Inequações resolvidas com mudança de incógnita.</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>331.</strong> Resolva as inequações: a) log<sub>3</sub>(5x - 2) < log<sub>3</sub>4 ... (até g)</p>
+                <p class="exercise-item"><strong>332.</strong> Resolva as inequações: a) log<sub>5</sub>(x² - x) > log<sub>0,2</sub>(1/6) b) log<sub>1/2</sub>(x² - x - 3/4) > 2 - log<sub>2</sub>5</p>
+                <p class="exercise-item"><strong>333.</strong> Resolva a inequação log x - colog(x + 1) > log 12.</p>
+                <p class="exercise-item"><strong>334.</strong> Resolva as inequações: a) log<sub>2</sub>(2 - x) < log<sub>1/2</sub>(x + 1) b) 1/(log<sub>2</sub>x) ≤ 1/(log<sub>2</sub>√x + 2)</p>
+                <p class="exercise-item"><strong>335.</strong> Resolva as inequações: a) log<sub>2</sub>(3x + 5) > 3 ... (até h)</p>
+                <p class="exercise-item"><strong>336.</strong> Resolva a inequação log<sub>a</sub>(2x - 3) > 0, para 0 < a < 1.</p>
+                <p class="exercise-item"><strong>337.</strong> Resolva as inequações: a) 2 < log<sub>2</sub>(3x + 1) < 4 ... (até d)</p>
+                <p class="exercise-item"><strong>338.</strong> Resolva a inequação 1 ≤ log<sub>10</sub>(x - 1) ≤ 2, com x > 1.</p>
+                <p class="exercise-item"><strong>339.</strong> Resolva as inequações: a) |log<sub>2</sub>x| > 1 ... (até e)</p>
+                <p class="exercise-item"><strong>340.</strong> Resolva as inequações: a) 3log<sub>3</sub>²x + 5log<sub>3</sub>x - 2 ≤ 0 ... (até f)</p>
+                <p class="exercise-item"><strong>341.</strong> Determine as soluções da desigualdade 2(log<sub>e</sub>x)² - log<sub>e</sub>x > 6.</p>
+                <p class="exercise-item"><strong>342.</strong> Resolva as inequações: a) log<sub>2</sub>x - 6log<sub>x</sub>2 + 1 > 0 ... (até c)</p>
+                <p class="exercise-item"><strong>343.</strong> Determine os valores de x que verificam a desigualdade 1/(log<sub>e</sub>x) + 1/(log<sub>x</sub>e - 1) > 1.</p>
+                <p class="exercise-item"><strong>344.</strong> Resolva a inequação 1 - √[1 - 8(log<sub>1/4</sub>x)²] < 3log<sub>1/4</sub>x.</p>
+                <p class="exercise-item"><strong>345.</strong> Resolva a inequação log<sub>x²</sub>8 + log<sub>x⁴</sub>8 < (log<sub>2</sub>x⁴)/(log<sub>2</sub>x² - 4).</p>
+                <p class="exercise-item"><strong>346.</strong> Resolva a inequação (1 + log<sub>a</sub>²x)/(1 + log<sub>a</sub>x) > 1, para 0 < a < 1.</p>
+                <p class="exercise-item"><strong>347.</strong> Resolva a inequação log<sub>2</sub>(x - 3) + log<sub>2</sub>(x - 2) ≤ 1.</p>
+                <p class="exercise-item"><strong>348.</strong> Resolva as inequações: a) log<sub>3</sub>(3x + 4) - log<sub>3</sub>(2x - 1) > 1 ... (até f)</p>
+                <p class="exercise-item"><strong>349.</strong> Determine os valores de x para os quais log<sub>10</sub>x + log<sub>10</sub>(x + 3) < 1.</p>
+                <p class="exercise-item"><strong>350.</strong> Resolva as inequações: a) log<sub>2</sub>√(6x + 1) + log<sub>2</sub>√(x + 1) > log<sub>4</sub>3 ... (até b)</p>
+                <p class="exercise-item"><strong>351.</strong> Resolva a inequação log<sub>4</sub>(2x² + x + 1) - log<sub>2</sub>(2x - 1) ≤ 1.</p>
+                <p class="exercise-item"><strong>352.</strong> Resolva a inequação log<sub>2</sub>[log<sub>1/2</sub>(log<sub>3</sub>x)] > 0.</p>
+                <p class="exercise-item"><strong>353.</strong> Resolva as inequações: a) log<sub>1/3</sub>(log<sub>2</sub>x) < 0 ... (até f)</p>
+                <p class="exercise-item"><strong>354.</strong> Determine o conjunto solução da inequação log<sub>1/3</sub>[log<sub>1/3</sub>x] ≥ 0.</p>
+                <p class="exercise-item"><strong>355.</strong> Sendo a > 1, resolva a inequação log<sub>a</sub>(log<sub>a</sub>x) < 0.</p>
+                <p class="exercise-item"><strong>356.</strong> Se 0 < a < 1, resolva a inequação log<sub>a</sub>(log<sub>1/a</sub>x) ≤ 0.</p>
+                <p class="exercise-item"><strong>357.</strong> Resolva a inequação log<sub>a</sub>[log<sub>1/a</sub>(log<sub>a</sub>x)] ≥ 0, para a > 1.</p>
+                <p class="exercise-item"><strong>358.</strong> Resolva a inequação log<sub>1/a</sub>[log<sub>a</sub>(log<sub>a</sub>x)] ≤ 0, para 0 < a < 1.</p>
+                <p class="exercise-item"><strong>359.</strong> Resolva as inequações: a) log<sub>2</sub>[1 + log<sub>3</sub>(log<sub>2</sub>(x² - 3x + 2))] ≥ 0 ... (até d)</p>
+                <p class="exercise-item"><strong>360.</strong> Determine o domínio das funções: a) f(x) = √log<sub>2</sub>x ... (até f)</p>
+                <p class="exercise-item"><strong>361.</strong> Determine o domínio da função f dada por f(x) = log<sub>1/2</sub>(x - 1).</p>
+                <p class="exercise-item"><strong>362.</strong> Resolva a inequação log<sub>a</sub>[(3 - 2x)/(1 - x)] < 1.</p>
+                <p class="exercise-item"><strong>363.</strong> Resolva as inequações: a) (1/2)<sup>log<sub>1/3</sub>(4x²-9x+5)</sup> > 2 ... (até d)</p>
+                <p class="exercise-item"><strong>364.</strong> Resolva a inequação x<sup>log<sub>2</sub>²x - log<sub>2</sub>x²</sup> > 1/x.</p>
+                <p class="exercise-item"><strong>365.</strong> Determine os valores de a para que a equação x² - 4x + log<sub>2</sub>a = 0 admita raízes reais.</p>
+                <p class="exercise-item"><strong>366.</strong> Determine os valores de a para os quais as raízes da equação são reais: a) x² - 2x - log<sub>2</sub>a = 0 ... (até d)</p>
+                <p class="exercise-item"><strong>367.</strong> Determine o valor de m para que a equação x² - 2x - log<sub>10</sub>m = 0 não tenha raízes reais.</p>
+                <p class="exercise-item"><strong>368.</strong> Determine o valor de N para que a equação x² - 2x + log<sub>10</sub>N = 0 admita duas raízes de sinais contrários.</p>
+                <p class="exercise-item"><strong>369.</strong> Determine o valor de t para que a equação 4<sup>x</sup> - (log<sub>e</sub>t + 3)2<sup>x</sup> - log<sub>e</sub>t = 0 admita duas raízes reais e distintas.</p>
+                <p class="exercise-item"><strong>370.</strong> Determine a para que a equação 3x² - 5x + log(2a² - 9a + 10) = 0 admita raízes de sinais contrários.</p>
+                <p class="exercise-item"><strong>371.</strong> Resolva as inequações: a) (4 - x²) ⋅ log<sub>2</sub>(1 - x) ≤ 0 b) (5x² + x - 6) ⋅ log<sub>1/2</sub>(3x - 4) ≥ 0</p>
+                <p class="exercise-item"><strong>372.</strong> Resolva a inequação x<sup>1/log x</sup> ⋅ log x < 1.</p>
+                <p class="exercise-item"><strong>373.</strong> Resolva a inequação log<sub>x</sub>(2x² - 5x + 2) > 1.</p>
+                <p class="exercise-item"><strong>374.</strong> Resolva as inequações: a) log<sub>x²</sub>(x + 2) < 1 ... (até i)</p>
+                <p class="exercise-item"><strong>375.</strong> Resolva a inequação log<sub>x</sub>(2x - 1) ≤ 2.</p>
+                <p class="exercise-item"><strong>376.</strong> Para que valores de a e b se tem a desigualdade: log<sub>a</sub>(a²b) > log<sub>b</sub>(1/a<sup>5</sup>)?</p>
+                <p class="exercise-item"><strong>377.</strong> Resolva a inequação log<sub>2</sub>(x - 1) ⋅ log<sub>1/2</sub>(3x - 4) > 0.</p>
+                <p class="exercise-item"><strong>378.</strong> Resolva a inequação x<sup>log<sub>a</sub>x + 1</sup> > a²x para a > 1.</p>
+                <p class="exercise-item"><strong>379.</strong> Resolva a inequação log<sub>1/2</sub>x + log<sub>3</sub>x > 1.</p>
+                <p class="exercise-item"><strong>380.</strong> Resolva a inequação log<sub>2</sub>(2<sup>x</sup> - 1) ⋅ log<sub>1/2</sub>(2<sup>x+1</sup> - 2) > -2.</p>
+                <p class="exercise-item"><strong>381.</strong> Determine o conjunto solução da inequação (x - log<sub>3</sub>27)(x - log<sub>2</sub>√8) < 0.</p>
+                <p class="exercise-item"><strong>382.</strong> Determine o conjunto de todos os x para os quais x log<sub>1/2</sub>(x² - 1) < 0.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 157-159 do livro.</em></p>
+            </div>
+        </div>
+
+        <div id="cap6_leitura_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Leitura: A Computação e o Sonho de Babbage</h2>
+            <p>A história da computação remonta ao ábaco. No século XVII, John Napier inventou as "barras de Napier" para multiplicação, e William Oughtred criou a régua de cálculo. Blaise Pascal desenvolveu a Pascaline, uma máquina de somar e subtrair. Gottfried W. Leibniz aprimorou essa ideia, criando uma máquina capaz de realizar as quatro operações básicas e descreveu o sistema binário.</p>
+            <p>Charles Babbage (1792-1871) propôs a "máquina diferencial" para calcular e imprimir tábuas matemáticas e, posteriormente, a "máquina analítica", mais potente e programável por cartões perfurados. Embora não tenha conseguido concretizar seus projetos em vida por limitações tecnológicas da época, suas ideias foram precursoras dos computadores modernos. O Harvard Mark I Calculator, de 1944, foi inspirado em seus trabalhos. O sonho de Babbage tornou-se a realidade tecnológica de maior alcance do mundo moderno.</p>
+            <div class="img-placeholder">Charles Babbage e detalhe da "máquina diferencial" (Ver p. 128 do livro)</div>
+        </div>
+        
+        <div id="cap7_item1_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo VII: Logaritmos Decimais</h2>
+            <h3 class="text-xl font-medium mb-2">I. Introdução</h3>
+            <p>Após o estudo da teoria dos logaritmos, veremos agora algumas aplicações aos cálculos numéricos.</p>
+            <p>Os logaritmos, quando da sua invenção, foram saudados alegremente por Kepler, pois aumentavam enormemente a capacidade de computação dos astrônomos.</p>
+            <p>Notemos que, com as propriedades operatórias dos logaritmos, podemos transformar uma multiplicação em uma soma, uma divisão em uma subtração e uma potenciação em uma multiplicação.</p>
+            <p>Dentre os diversos sistemas de logaritmos, estudaremos com particular interesse o sistema de logaritmos de base 10.</p>
+            <p>Lembremos as principais propriedades da função logarítmica de base 10:</p>
+            <ul class="list-decimal list-inside ml-4">
+                <li>log 1 = 0</li>
+                <li>log 10 = 1</li>
+                <li>x > 1 ⇒ log x > 0</li>
+                <li>0 < x < 1 ⇒ log x < 0</li>
+            </ul>
+        </div>
+
+        <div id="cap7_item2_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo VII: Logaritmos Decimais</h2>
+            <h3 class="text-xl font-medium mb-2">II. Característica e Mantissa</h3>
+            <p><strong>75.</strong> Qualquer que seja o número real positivo <span class="math-symbol">x</span> que consideremos, ele estará necessariamente compreendido entre duas potências de 10 com expoentes inteiros consecutivos.</p>
+            <p>Exemplos: 0,04 (10<sup>-2</sup> < 0,04 < 10<sup>-1</sup>), 3,72 (10<sup>0</sup> < 3,72 < 10<sup>1</sup>), 573 (10<sup>2</sup> < 573 < 10<sup>3</sup>).</p>
+            <p>Assim, dado <span class="math-symbol">x</span> > 0, existe <span class="math-symbol">c ∈ ℤ</span> tal que: 10<sup>c</sup> ≤ <span class="math-symbol">x</span> < 10<sup>c+1</sup> ⇒ c ≤ log <span class="math-symbol">x</span> < c + 1.</p>
+            <p>Podemos afirmar que log <span class="math-symbol">x</span> = <span class="math-symbol">c + m</span>, em que <span class="math-symbol">c ∈ ℤ</span> e <span class="math-symbol">0 ≤ m < 1</span>.</p>
+            <p>O número inteiro <span class="math-symbol">c</span> é por definição a <strong>característica</strong> do logaritmo de <span class="math-symbol">x</span>, e o número decimal <span class="math-symbol">m</span> (0 ≤ m < 1) é por definição a <strong>mantissa</strong> do logaritmo decimal de <span class="math-symbol">x</span>.</p>
+        </div>
+
+        <div id="cap7_item3_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo VII: Logaritmos Decimais</h2>
+            <h3 class="text-xl font-medium mb-2">III. Regras da Característica</h3>
+            <p><strong>76. Regra I (x > 1)</strong></p>
+            <p>A característica do logaritmo decimal de um número <span class="math-symbol">x</span> > 1 é igual ao número de algarismos de sua parte inteira menos 1.</p>
+            <p>Exemplos: log 2,3 (c=0), log 31,421 (c=1), log 204 (c=2).</p>
+            <p><strong>77. Regra II (0 < x < 1)</strong></p>
+            <p>A característica do logaritmo decimal de um número <span class="math-symbol">0 < x < 1</span> é o oposto da quantidade de zeros que precedem o primeiro algarismo significativo.</p>
+            <p>Exemplos: log 0,2 (c=-1), log 0,035 (c=-2), log 0,00405 (c=-3).</p>
+        </div>
+
+        <div id="cap7_item4_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo VII: Logaritmos Decimais</h2>
+            <h3 class="text-xl font-medium mb-2">IV. Mantissa</h3>
+            <p>A mantissa é obtida nas tábuas (tabelas) de logaritmos. Em geral, a mantissa é um número irracional e, por esse motivo, as tábuas de logaritmos são tabelas que fornecem os valores aproximados dos logaritmos dos números inteiros, geralmente de 1 a 10000.</p>
+            <p><strong>78. Propriedade da mantissa</strong></p>
+            <p>A mantissa do logaritmo decimal de <span class="math-symbol">x</span> não se altera se multiplicarmos <span class="math-symbol">x</span> por uma potência de 10 com expoente inteiro.</p>
+            <p>Demonstração: log(x ⋅ 10<sup>p</sup>) - log x = log(10<sup>p</sup> ⋅ x / x) = log 10<sup>p</sup> = p ∈ ℤ.</p>
+            <p>Consequência: Os logaritmos de dois números cujas representações decimais diferem apenas pela posição da vírgula têm mantissas iguais.</p>
+            <div class="img-placeholder">Tabela de Mantissas (Ver p. 134-135 do livro)</div>
+        </div>
+
+        <div id="cap7_item5_vol2" class="content-section">
+            <h2 class="text-2xl font-semibold mb-3">Capítulo VII: Logaritmos Decimais</h2>
+            <h3 class="text-xl font-medium mb-2">V. Exemplos de Aplicações da Tábua de Logaritmos</h3>
+            <p>1º) Calcular log 23,4. Característica = 1. Mantissa de 234 é 0,3692. Então, log 23,4 = 1,3692.</p>
+            <p>2º) Calcular log 0,042. Característica = -2. Mantissa de 420 é 0,6232. Então, log 0,042 = -2 + 0,6232 = 2,6232 (forma mista).</p>
+            <p>3º) Calcular log 314,2 (Interpolação Linear). ... (Exemplo detalhado na p.136-137 do livro)</p>
+            <p>4º) Calcular antilog 1,7952. log x = 1,7952. Mantissa 0,7952 → número 624. Característica 1 → x = 62,4.</p>
+            <p>5º) Calcular antilog -1,3716. log x = -1,3716 = -2 + 0,6284 = 2,6284. Mantissa 0,6284 → número 425. Característica -2 → x = 0,0425.</p>
+            <p>6º) Calcular antilog 3,2495 (Interpolação Linear). ... (Exemplo detalhado na p.138 do livro)</p>
+            <div class="exercise-block">
+                <h3>EXERCÍCIOS</h3>
+                <p class="exercise-item"><strong>383.</strong> Determine as características, no sistema decimal, de log 7; log 0,032; log 10<sup>5</sup> e log 0,00010.</p>
+                <p class="exercise-item"><strong>384.</strong> Calcule: a) log 3210 b) log 25,4 c) log 5,72 d) log 0,74 e) log 0,00357</p>
+                <p class="exercise-item"><strong>385.</strong> Calcule: a) antilog 3,8768 ... (até f)</p>
+                <p class="exercise-item"><strong>386.</strong> Calcule: a) antilog -2,0899 ... (até d)</p>
+                <p class="exercise-item"><strong>387.</strong> Calcule: a) log 3275 ... (até e)</p>
+                <p class="exercise-item"><strong>388.</strong> Calcule: a) antilog 1,3552 ... (até d)</p>
+                <p class="exercise-item"><strong>389.</strong> Ache o maior valor de n para o qual a<sub>1</sub>, a<sub>2</sub>, ..., a<sub>n</sub> são números reais verificando a igualdade log 12345 = a<sub>1</sub>, log a<sub>1</sub> = a<sub>2</sub>, ..., log a<sub>n-1</sub> = a<sub>n</sub>.</p>
+                <p class="exercise-item"><strong>390.</strong> Calcule log<sub>2</sub>3.</p>
+                <p class="exercise-item"><strong>391.</strong> Calcule: a) log<sub>3</sub>2 b) log<sub>2</sub>5 c) log<sub>5</sub>3 d) log<sub>5</sub>6 e) log<sub>6</sub>4</p>
+                <p class="exercise-item"><strong>392.</strong> Determine a característica do logaritmo de 800 no sistema de base 3.</p>
+                <p class="exercise-item"><strong>393.</strong> Determine o número de algarismos da potência 50<sup>50</sup>, considerando log 2 = 0,301.</p>
+                <p class="exercise-item"><strong>394.</strong> Resolva as equações (aproximações em centésimos): a) 5<sup>x</sup> = 100 ... (até e)</p>
+                <p class="exercise-item"><strong>395.</strong> Resolva as equações (aproximações em centésimos): a) 2<sup>2x</sup> - 8 ⋅ 2<sup>x</sup> + 15 = 0 ... (até d)</p>
+                <p class="exercise-item"><strong>396.</strong> Sabendo que log<sub>10</sub>2 = 0,30 e log<sub>10</sub>3 = 0,48, resolva a equação 3<sup>x</sup> ⋅ 2<sup>3x-1</sup> = 6<sup>2x+1</sup>.</p>
+                <p class="exercise-item"><strong>397.</strong> Calcule com aproximação de milésimos o valor de <sup>5</sup>√2.</p>
+                <p class="exercise-item"><strong>398.</strong> Calcule, com aproximação de milésimos, o valor de: a) ⁶√3 b) ⁴√10 c) 2<sup>3,4</sup> d) 5<sup>2,3</sup></p>
+                <p class="exercise-item"><strong>399.</strong> O volume V de uma esfera é dado por V = (4/3)πR³, em que R é o raio da esfera. Calcule o raio da esfera de volume 20 cm³.</p>
+                <p class="exercise-item"><strong>400.</strong> Calcule o valor de A = (³√5 ⋅ (1,73)²) / (3,4)³ com aproximação de centésimos.</p>
+                <p class="exercise-item"><strong>401.</strong> O valor C de um capital (aplicado a uma taxa i de juros capitalizados periodicamente ao fim do período), após t períodos, é dado por C = C<sub>0</sub> ⋅ (1 + i)<sup>t</sup>, em que C<sub>0</sub> é o valor inicial. Qual é o tempo necessário para que um capital aplicado à taxa de 2% ao mês, com juros capitalizados mensalmente, dobre de valor?</p>
+                <p class="exercise-item"><strong>402.</strong> Determine o tempo necessário para que um capital empregado à taxa de 3% ao mês, com juros capitalizados mensalmente, triplique de valor.</p>
+                <p class="exercise-item"><strong>403.</strong> Determine o tempo necessário para que um capital empregado à taxa de 10,5% ao trimestre, com juros capitalizados ao fim de cada trimestre, dobre de valor.</p>
+                <p class="exercise-item"><strong>404.</strong> Qual é o montante de R$ 1000000,00 empregados à taxa de 3% ao mês, capitalizados mensalmente, ao fim de 18 meses?</p>
+                <p class="exercise-item"><strong>405.</strong> Qual é o montante de R$ 500000,00 empregados a uma taxa de 4% ao trimestre, capitalizados trimestralmente, ao fim de 12 anos?</p>
+                <p class="exercise-item"><strong>406.</strong> Uma certa cultura de bactérias cresce quando a lei N(t) = 2000 ⋅ 10<sup>t/36</sup>, em que N(t) é o número de bactérias após t horas. Quantas bactérias haverá após 3 horas?</p>
+                <p class="exercise-item"><strong>407.</strong> O decaimento de certo material radioativo pode ser expresso por: Q(t) = Q<sub>0</sub> ⋅ 10<sup>-kt</sup>. Sabendo que Q(20) = 400 gramas e Q<sub>0</sub> = 500 gramas, calcule k.</p>
+                <p class="mt-2 text-sm text-gray-600"><em>Respostas dos exercícios nas páginas 159-160 do livro.</em></p>
+            </div>
+        </div>
+        
+        <div id="respostas_exercicios_vol2" class="content-section"> 
+            <h2 class="text-2xl font-semibold">Respostas dos Exercícios - Vol. 2</h2> 
+            <p>As respostas dos exercícios propostos no Volume 2 (Logaritmos) começam na página 142 do livro original.</p>
+        </div>
+        
+        <div id="questoes_vestibulares_vol2" class="content-section"> 
+            <h2 class="text-2xl font-semibold">Questões de Vestibulares - Vol. 2</h2> 
+            <p>As questões de vestibulares para o Volume 2 (Logaritmos) começam na página 160 do livro original.</p>
+        </div>
+        
+        <div id="respostas_questoes_vol2" class="content-section"> 
+            <h2 class="text-2xl font-semibold">Respostas das Questões de Vestibulares - Vol. 2</h2> 
+            <p>As respostas das questões de vestibulares para o Volume 2 (Logaritmos) começam na página 214 do livro original.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Estrutura do menu baseada no sumário do livro Volume 2
+        const menuData = [
+            { id: "home", title: "Página Inicial (Vol. 2)", isHome: true },
+            { 
+                id: "cap1_vol2", title: "Cap. I - Potências e Raízes",
+                items: [
+                    { id: "cap1_item1", title: "I. Potência Exp. Natural" },
+                    { id: "cap1_item2", title: "II. Potência Exp. Int. Negativo" },
+                    { id: "cap1_item3", title: "III. Raiz Enésima Aritmética" },
+                    { id: "cap1_item4", title: "IV. Potência Exp. Racional" },
+                    { id: "cap1_item5", title: "V. Potência Exp. Irracional" },
+                    { id: "cap1_item6", title: "VI. Potência Exp. Real" },
+                    { id: "cap1_leitura", title: "Leitura: Stifel, Bürgi" }
+                ]
+            },
+            { 
+                id: "cap2_vol2", title: "Cap. II - Função Exponencial", 
+                items: [ 
+                    {id: "cap2_item1_vol2", title: "I. Definição"},
+                    {id: "cap2_item2_vol2", title: "II. Propriedades"},
+                    {id: "cap2_item3_vol2", title: "III. Imagem"},
+                    {id: "cap2_item4_vol2", title: "IV. Gráfico"},
+                    {id: "cap2_item5_vol2", title: "V. Equações Exponenciais"},
+                    {id: "cap2_item6_vol2", title: "VI. Inequações Exponenciais"},
+                    {id: "cap2_leitura_vol2", title: "Leitura: Napier"}
+                ] 
+            },
+            { 
+                id: "cap3_vol2", title: "Cap. III - Logaritmos",
+                items: [ 
+                    {id: "cap3_item1_vol2", title: "I. Conceito de Logaritmo"},
+                    {id: "cap3_item2_vol2", title: "II. Antilogaritmo"},
+                    {id: "cap3_item3_vol2", title: "III. Consequências da Definição"},
+                    {id: "cap3_item4_vol2", title: "IV. Sistemas de Logaritmos"},
+                    {id: "cap3_item5_vol2", title: "V. Propriedades dos Logaritmos"},
+                    {id: "cap3_item6_vol2", title: "VI. Mudança de Base"},
+                    {id: "cap3_leitura_vol2", title: "Leitura: Lagrange"}
+                ]
+            },
+            { 
+                id: "cap4_vol2", title: "Cap. IV - Função Logarítmica", 
+                items: [
+                    {id: "cap4_item1_vol2", title: "I. Definição"},
+                    {id: "cap4_item2_vol2", title: "II. Propriedades"},
+                    {id: "cap4_item3_vol2", title: "III. Imagem"},
+                    {id: "cap4_item4_vol2", title: "IV. Gráfico"}
+                ] 
+            },
+             { 
+                id: "cap5_vol2", title: "Cap. V - Equações Exp. e Log.",
+                items: [ 
+                    {id: "cap5_item1_vol2", title: "I. Equações Exponenciais"},
+                    {id: "cap5_item2_vol2", title: "II. Equações Logarítmicas"},
+                    {id: "cap5_leitura_vol2", title: "Leitura: Gauss"}
+                ]
+            },
+            { 
+                id: "cap6_vol2", title: "Cap. VI - Inequações Exp. e Log.", 
+                items: [
+                    {id: "cap6_item1_vol2", title: "I. Inequações Exponenciais"},
+                    {id: "cap6_item2_vol2", title: "II. Inequações Logarítmicas"},
+                    {id: "cap6_leitura_vol2", title: "Leitura: Babbage"}
+                ]
+            },
+            { 
+                id: "cap7_vol2", title: "Cap. VII - Logaritmos Decimais",
+                items: [ 
+                    {id: "cap7_item1_vol2", title: "I. Introdução"},
+                    {id: "cap7_item2_vol2", title: "II. Característica e Mantissa"},
+                    {id: "cap7_item3_vol2", title: "III. Regras da Característica"},
+                    {id: "cap7_item4_vol2", title: "IV. Mantissa"},
+                    {id: "cap7_item5_vol2", title: "V. Exemplos de Aplicações"}
+                ]
+            },
+            { id: "respostas_exercicios_nav_vol2", title: "Respostas dos Exercícios (Vol. 2)", contentId: "respostas_exercicios_vol2" },
+            { id: "questoes_vestibulares_nav_vol2", title: "Questões de Vestibulares (Vol. 2)", contentId: "questoes_vestibulares_vol2" },
+            { id: "respostas_questoes_nav_vol2", title: "Respostas das Questões (Vol. 2)", contentId: "respostas_questoes_vol2" }
+        ];
+
+        const navigationMenu = document.getElementById('navigation-menu');
+        const mainContent = document.getElementById('main-content');
+        const sidebar = document.getElementById('sidebar');
+        const menuButton = document.getElementById('menu-button');
+        const overlay = document.getElementById('overlay');
+        let activeLink = null;
+        let activeChapterTitle = null;
+
+        function closeAllSubmenus() {
+            document.querySelectorAll('.sub-items.open').forEach(openSub => {
+                openSub.classList.remove('open');
+            });
+            document.querySelectorAll('.chapter-title.active-chapter').forEach(activeTitle => {
+                activeTitle.classList.remove('active-chapter');
+            });
+            activeChapterTitle = null;
+        }
+
+        function showContent(contentId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            const activeSection = document.getElementById(contentId);
+            if (activeSection) {
+                activeSection.classList.add('active');
+                mainContent.scrollTop = 0; 
+            }
+
+            if (activeLink) {
+                activeLink.classList.remove('active-link');
+            }
+            const newActiveLink = document.querySelector(`.nav-link[data-content-id="${contentId}"], .sub-nav-link[data-content-id="${contentId}"]`);
+            if (newActiveLink) {
+                newActiveLink.classList.add('active-link');
+                activeLink = newActiveLink;
+
+                const parentChapterContainer = newActiveLink.closest('.chapter-container');
+                if (parentChapterContainer) {
+                    const currentChapterTitleElem = parentChapterContainer.querySelector('.chapter-title');
+                    if (currentChapterTitleElem && !currentChapterTitleElem.classList.contains('active-chapter')) {
+                        if(activeChapterTitle) activeChapterTitle.classList.remove('active-chapter'); 
+                        currentChapterTitleElem.classList.add('active-chapter');
+                        activeChapterTitle = currentChapterTitleElem;
+                    }
+                } else if (newActiveLink.classList.contains('chapter-title')) { 
+                     if (activeChapterTitle && activeChapterTitle !== newActiveLink) { 
+                        activeChapterTitle.classList.remove('active-chapter');
+                     }
+                } else { 
+                    if (activeChapterTitle) {
+                        activeChapterTitle.classList.remove('active-chapter');
+                        activeChapterTitle = null;
+                    }
+                     closeAllSubmenus(); 
+                }
+
+
+            } else if (document.getElementById(contentId) && document.getElementById(contentId).id === 'home') {
+                if (activeChapterTitle) {
+                    activeChapterTitle.classList.remove('active-chapter');
+                    activeChapterTitle = null;
+                }
+                 closeAllSubmenus(); 
+                const homeNav = document.querySelector('.nav-link[data-content-id="home"]');
+                if(homeNav) homeNav.classList.add('active-link');
+                activeLink = homeNav;
+            }
+            
+            if (window.innerWidth < 768) { 
+                sidebar.classList.remove('translate-x-0');
+                sidebar.classList.add('-translate-x-full');   
+                overlay.style.display = 'none';
+            }
+        }
+        
+        function toggleSubItems(chapterId, chapterTitleElement) {
+            const subItemsDiv = document.getElementById(`subitems_${chapterId}`);
+            if (subItemsDiv) {
+                const isOpen = subItemsDiv.classList.contains('open'); 
+                
+                document.querySelectorAll('.sub-items.open').forEach(openSub => {
+                    if (openSub.id !== `subitems_${chapterId}`) {
+                        openSub.classList.remove('open');
+                        const otherChapterTitle = document.getElementById(openSub.id.replace('subitems_', 'chapter_title_'));
+                        if(otherChapterTitle) otherChapterTitle.classList.remove('active-chapter');
+                    }
+                });
+
+                subItemsDiv.classList.toggle('open');
+                chapterTitleElement.classList.toggle('active-chapter', !isOpen);
+
+                if (!isOpen) { 
+                    activeChapterTitle = chapterTitleElement;
+                } else { 
+                     if(activeChapterTitle === chapterTitleElement) activeChapterTitle = null;
+                }
+            }
+        }
+
+        menuData.forEach(item => {
+            const containerDiv = document.createElement('div'); 
+            containerDiv.classList.add('chapter-container');
+
+            if (item.isHome) {
+                const link = document.createElement('a');
+                link.href = '#';
+                link.textContent = item.title;
+                link.classList.add('nav-link');
+                link.dataset.contentId = item.id;
+                link.onclick = (e) => { e.preventDefault(); showContent(item.id); };
+                navigationMenu.appendChild(link);
+            } else if (item.items) { 
+                const chapterTitle = document.createElement('div');
+                chapterTitle.textContent = item.title;
+                chapterTitle.classList.add('chapter-title');
+                chapterTitle.id = `chapter_title_${item.id}`;
+                chapterTitle.onclick = () => toggleSubItems(item.id, chapterTitle);
+                containerDiv.appendChild(chapterTitle);
+
+                const subItemsDiv = document.createElement('div');
+                subItemsDiv.classList.add('sub-items');
+                subItemsDiv.id = `subitems_${item.id}`;
+
+                item.items.forEach(subItem => {
+                    const subLink = document.createElement('a');
+                    subLink.href = '#';
+                    subLink.textContent = subItem.title;
+                    subLink.classList.add('nav-link', 'sub-nav-link');
+                    subLink.dataset.contentId = subItem.id; 
+                    subLink.onclick = (e) => { e.preventDefault(); showContent(subItem.id); };
+                    subItemsDiv.appendChild(subLink);
+                });
+                containerDiv.appendChild(subItemsDiv);
+                navigationMenu.appendChild(containerDiv);
+
+            } else { 
+                 const link = document.createElement('a');
+                link.href = '#';
+                link.textContent = item.title;
+                link.classList.add('nav-link');
+                const contentTargetId = item.contentId || item.id + "_placeholder";
+                link.dataset.contentId = contentTargetId;
+                link.onclick = (e) => { e.preventDefault(); showContent(contentTargetId); };
+                navigationMenu.appendChild(link);
+            }
+        });
+        
+        const homeLink = document.querySelector('.nav-link[data-content-id="home"]');
+        if (homeLink) {
+            homeLink.classList.add('active-link');
+            activeLink = homeLink;
+        }
+        showContent('home');
+
+        menuButton.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            const isOpen = sidebar.classList.contains('translate-x-0');
+            if (isOpen) {
+                sidebar.classList.remove('translate-x-0');
+                sidebar.classList.add('-translate-x-full');
+                overlay.style.display = 'none';
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                overlay.style.display = 'block';
+            }
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('translate-x-0');
+            sidebar.classList.add('-translate-x-full');
+            overlay.style.display = 'none';
+            closeAllSubmenus(); 
+        });
+
+    </script>
+</body>
+</html>
+
